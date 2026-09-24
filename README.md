@@ -1,32 +1,22 @@
-# React + TypeScript + Vite
+# portfolio-maker
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A portfolio told as a journey. A traveller walks from the foot of a mountain to the sea,
+and each stop along the way is a chapter of a life. The bigger the achievement, the grander
+the scenery. As the visitor scrolls, the camera travels through one continuous
+hand-painted landscape.
 
-Currently, two official plugins are available:
+The engine in `src/` is generic. A journey is defined entirely by content: journey JSON,
+media and a style preset. See `docs/design-doc.md`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Run
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Open http://localhost:5180 in a desktop browser.
+
+## Status
+
+v0.1, the scaffold. The milestones are in `docs/design-doc.md` §9.
