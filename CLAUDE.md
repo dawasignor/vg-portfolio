@@ -62,15 +62,19 @@ GSAP only if drei's scroll turns out not to be enough.
 
 ## The media gate (GDPR): nothing ships until it passes
 
-Every media item in `content/journeys/*.json` must record `people`, meaning what was done
-about people in it: `none` · `blurred` · `generic` · `removed`. A missing value means
-**not cleared**, and the item must not be published. The build-time check and the prep
-script (resize, WebP, strip EXIF) arrive with the first real media at v0.4. Until then,
-nothing goes into `public/media/`.
+Every media item must record `people`, meaning what was done about people in it:
+`none` · `blurred` · `generic` · `removed`. A missing value means **not cleared**, and the
+item must not be published. Nothing enters `public/media/` except through the gate below.
 
-Known so far in `Image feed/`: GOPR2915 shows a person at the summit cross, seen from
-behind. Ask vg before using it (it may be vg or a companion). GOPR2784 and GOPR2785 show
-strangers' faces and are excluded.
+**`npm run media`** runs the gate: for each item in `content/media-clearance.json` it applies
+the camera's rotation, blurs the listed regions (faces are pixelated first, so the blur
+can't be reversed), resizes to 2048 px, writes WebP with **no metadata**, verifies that,
+and refuses any item without a `people` value. The regions are recorded in the manifest,
+so every edit can be reproduced and accounted for.
+
+Cleared so far: `public/media/reference/gopr2915.webp`. The summit cross, with one hiker
+**facing the camera**, blurred to a generic figure (vg's decision, 2026-09-25).
+GOPR2784 and GOPR2785 show strangers' faces and stay excluded.
 
 ## Reference photos and the story (2026-09-25)
 

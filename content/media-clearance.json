@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "source": "Image feed/GOPR2915.JPG",
+      "output": "public/media/reference/gopr2915.webp",
+      "people": "blurred",
+      "note": "Summit cross. One hiker beside it, facing the camera: blurred to a generic figure, face pixelated. Decided by vg 2026-09-25.",
+      "regions": [
+        { "what": "the hiker, whole figure", "box": [2310, 2650, 350, 765], "blur": 10, "feather": 12 },
+        { "what": "the hiker's face", "box": [2395, 2675, 130, 145], "pixelate": 6, "blur": 8, "feather": 8 }
+      ]
+    }
+  ]
+}
