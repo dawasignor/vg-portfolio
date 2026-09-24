@@ -26,3 +26,7 @@ dist-ssr
 # Local-only Claude Code config (absolute paths must not be committed)
 .claude/launch.json
 .claude/settings.local.json
+
+# Raw reference photos: large, and most carry GPS locations in their EXIF.
+# Never commit them; publishable media goes in public/media/ (stripped, resized).
+/Image feed/
