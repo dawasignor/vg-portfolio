@@ -28,6 +28,7 @@ stands.
 | Question | Decision | When |
 |---|---|---|
 | §12 Q4 Language | TypeScript | 2026-09-25 |
+| §12 Q5 Traveller | First-person: the camera is the traveller. Sometimes a first-person video (details: open Q13) | 2026-09-25 |
 | Dev server | Port **5180**, `strictPort`. 5173 is taken by another project on this machine | 2026-09-25 |
 
 Every other §12 question is still open. Ask about it when its milestone arrives, and don't

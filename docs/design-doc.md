@@ -78,6 +78,8 @@ Day and night alternate through the journey; lighting is cinematic throughout, n
 
 ### 4.2 Interaction
 - **Scroll** moves the traveller/camera forward along the path; scrolling up goes back in time.
+- **First person** (§12 Q5, settled 2026-09-25): the camera *is* the traveller. There is no hiker figure on screen.
+- **First-person video, sometimes**: at chosen stops the 3D view gives way to real first-person footage, then returns to the landscape. How it behaves is §12 Q13. `[CONFIRM]`
 - At each node the scroll **slows or holds briefly** (a "stall point") so the visitor can take it in. `[CONFIRM]` §12 Q8
 - **Hovering** a node marker opens a card with the image/video and text. Moving away closes it.
 - **Tabs** switch journeys (reload a different journey definition into the same engine).
@@ -300,6 +302,7 @@ Tentative; versions will be refined and sub-versioned as they approach.
 4. **Language:** TypeScript (stricter, catches errors, helps Claude Code; steeper start) or JavaScript (gentler for learning)?
    → **Settled 2026-09-25: TypeScript.**
 5. **Traveller on screen:** Do we see the hiker (a figure walking ahead of the camera), or is it first-person, with the visitor as the traveller?
+   → **Settled 2026-09-25: first-person, sometimes a first-person video.** The video part opened Q13.
 6. **Voice:** The original Uyir Nadhi concept was an AI personal secretary's notes. Should node text be written in that voice (e.g., dated log entries), or plain portfolio text?
 7. **Sound:** Ambient audio (wind, birds, water, waves) with a mute button, or silent?
 8. **Stall points:** Should scrolling pause briefly at each node, or flow continuously with nodes just appearing as you pass?
@@ -307,3 +310,9 @@ Tentative; versions will be refined and sub-versioned as they approach.
 10. **Video in hover cards:** Autoplay muted loops, or click to play?
 11. **Identity:** What name/title appears on the site, and which contact links (email, LinkedIn, GitHub…)?
 12. **Progress bar:** Keep the river-line progress indicator with jump-to-node (§4.2)?
+13. **First-person video segments** (raised by Q5):
+    a. Does scroll *scrub* the footage (scroll forward = walk forward, scroll back = rewind), or does it play in real time once you arrive?
+    b. Does the video cross-fade in full-screen, or play inside the landscape (e.g., on a surface in the scene)?
+    c. Does the art-pass look apply to the footage, or does it stay raw, as a contrast to the painted world?
+    d. Which milestone? Proposed: engine support at v0.6 (Art pass), alongside the first media. `[CONFIRM]`
+    Technical note: scrubbed video only seeks smoothly if it's encoded with very frequent keyframes. Keep clips short (≈5–15 s) and muted; the prep script belongs with the media workflow.
