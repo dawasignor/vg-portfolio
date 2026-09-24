@@ -1,6 +1,9 @@
+import type { AnimationClipJSON } from 'three'
 import type { Stop } from '../../engine/blend'
+import { loadCameraMove, type Transition } from '../../engine/cameraMove'
 import type { Look } from '../../engine/look'
 import type { Segment } from '../../engine/segments'
+import zoomSidePan from '../../styles/presets/motion/zoom-side-pan.json'
 import { LOOKS } from '../../styles/presets/painterlyAnime'
 
 // The grey-box journey's layout: which scene segment sits where, and the time
@@ -35,3 +38,30 @@ export const LIGHTING: ReadonlyArray<Stop<Look>> = [
   [0.9, LOOKS.dawn],
   [1.0, LOOKS.finale],
 ]
+
+// Saved as a three.js AnimationClip; JSON imports lose its enum types, hence the cast.
+const ZOOM_SIDE_PAN = loadCameraMove(zoomSidePan as AnimationClipJSON)
+
+/** How much of the journey each transition takes: 8% ≈ 5–6 mouse-wheel notches,
+ *  so the move unfolds over several gestures instead of snapping past in one. */
+const TRANSITION_SPAN = 0.08
+
+/** Which way to glance at each scene boundary, towards what's worth seeing there. */
+const GLANCE: ReadonlyArray<1 | -1> = [
+  1, // base camp → forest: the tower trio on the right
+  -1, // forest → lake: the lake ahead-left
+  -1, // lake → ridge: down at the water, beside you
+  1, // ridge → summit: the valleys falling away on the right
+  -1, // summit → village: the tower on the left of the pass
+  1, // village → river: the river on the right
+  1, // river → delta: the delta widening on the right
+  -1, // delta → beach: along the shore
+]
+
+/** A zoom-in side-pan at every boundary between scenes (design doc §4.2). */
+export const TRANSITIONS: ReadonlyArray<Transition> = SEGMENTS.slice(1).map((segment, i) => ({
+  at: segment.from,
+  span: TRANSITION_SPAN,
+  side: GLANCE[i],
+  move: ZOOM_SIDE_PAN,
+}))

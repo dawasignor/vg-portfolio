@@ -1,0 +1,36 @@
+{
+  "name": "zoom-side-pan",
+  "duration": 1,
+  "uuid": "5f1d7c3e-2b8a-4c61-9e0f-7a3d2c1b9e84",
+  "blendMode": 2500,
+  "tracks": [
+    {
+      "name": ".fov",
+      "type": "number",
+      "times": [0, 0.2, 0.42, 0.58, 0.78, 1],
+      "values": [1, 0.95, 0.86, 0.89, 1.05, 1],
+      "interpolation": 2302
+    },
+    {
+      "name": ".yaw",
+      "type": "number",
+      "times": [0, 0.2, 0.42, 0.58, 0.78, 1],
+      "values": [0, 3.5, 10, 12, 5, 0],
+      "interpolation": 2302
+    },
+    {
+      "name": ".pitch",
+      "type": "number",
+      "times": [0, 0.2, 0.42, 0.58, 0.78, 1],
+      "values": [0, 0.5, 1.5, 1.5, 0.5, 0],
+      "interpolation": 2302
+    },
+    {
+      "name": ".roll",
+      "type": "number",
+      "times": [0, 0.2, 0.42, 0.58, 0.78, 1],
+      "values": [0, 0.4, 1, 0.6, -0.4, 0],
+      "interpolation": 2302
+    }
+  ]
+}
