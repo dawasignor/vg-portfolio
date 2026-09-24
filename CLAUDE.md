@@ -15,6 +15,14 @@ stands.
 - **Privacy.** This repo must not reference, link, copy from, or reveal the path of vg's
   private notes or any other personal directory. That includes absolute paths in committed
   config. `.claude/launch.json` is gitignored for this reason.
+- **GDPR, strictly (vg's rule, 2026-09-25).** Treat every photo and video as personal data
+  until it's cleared:
+  - **Faces:** any person who could be recognised is **blurred**, or redrawn as a *generic*
+    person (e.g. seen from behind, looking away), or, as a last resort, **removed**. This
+    covers strangers, friends and family. vg decides about their own face.
+  - **Location and metadata:** EXIF is stripped from everything that ships, GPS above all.
+  - **Other people's words and names** (interviewees, villagers) never appear without consent.
+  - **Minimise:** keep only what the page needs. Raw originals never enter git or a build.
 - **Keep the engine and the content apart.** Nothing about vg goes in `src/`. Everything
   personal lives in `content/` and `public/media/`. That separation is what lets the engine
   become a template later (§11, v4).
@@ -51,6 +59,18 @@ GSAP only if drei's scroll turns out not to be enough.
 - [ ] v0.6 Art pass
 - [ ] v0.7 Content pass
 - [ ] v1.0 Polish
+
+## The media gate (GDPR): nothing ships until it passes
+
+Every media item in `content/journeys/*.json` must record `people`, meaning what was done
+about people in it: `none` · `blurred` · `generic` · `removed`. A missing value means
+**not cleared**, and the item must not be published. The build-time check and the prep
+script (resize, WebP, strip EXIF) arrive with the first real media at v0.4. Until then,
+nothing goes into `public/media/`.
+
+Known so far in `Image feed/`: GOPR2915 shows a person at the summit cross, seen from
+behind. Ask vg before using it (it may be vg or a companion). GOPR2784 and GOPR2785 show
+strangers' faces and are excluded.
 
 ## Reference photos and the story (2026-09-25)
 

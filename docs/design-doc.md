@@ -135,6 +135,7 @@ Field notes:
 - `sceneType` — one of the segment types in §8.3.
 - `visibility` — `public` | `personal`. Stored now, ignored until v2.
 - `media[].status` — `placeholder` | `raw` | `stylized`. While `placeholder`, the card shows `sceneDescription` as styled text instead of an image.
+- `media[].people` — `none` | `blurred` | `generic` | `removed`: what was done about people in the item. **Required before anything is published**; missing = not cleared (added 2026-09-25, GDPR, see §10).
 
 ---
 
@@ -233,6 +234,7 @@ Rule: **no personal content inside `src/`.** Everything about vg lives in `conte
 
 ### 8.4 Media handling
 - Images as `.webp`, videos as short muted `.mp4` loops. `[CONFIRM]` §12 Q10
+- **Privacy gate (GDPR):** every published file is resized, re-encoded and stripped of EXIF metadata (GPS above all), and any recognisable face is blurred, redrawn as a generic person, or removed. See §10.
 - Preload media for the current and next two nodes only.
 - Hover card is an HTML overlay anchored to the node's 3D position.
 
@@ -265,6 +267,14 @@ Each milestone has a learning goal so vg understands what was built, not just th
 - **Edit in place.** Never regenerate the whole project to make a change.
 - **Never invent content.** Leave `[FROM CV]`, `[CONFIRM]`, `[PLACEHOLDER-IMG]` untouched unless vg supplies the content.
 - **Privacy.** This repo must not reference, link, copy from, or reveal the path of vg's private vault or any other personal directories.
+- **GDPR, strictly (vg's rule, 2026-09-25).** Treat every photo and video as personal data
+  until it's cleared:
+  - **Faces:** any person who could be recognised is **blurred**, or redrawn as a *generic*
+    person (e.g. seen from behind, looking away), or, as a last resort, **removed**. This
+    covers strangers, friends and family. vg decides about their own face.
+  - **Location and metadata:** EXIF is stripped from everything that ships, GPS above all.
+  - **Other people's words and names** (interviewees, villagers) never appear without consent.
+  - **Minimise:** keep only what the page needs. Raw originals never enter git or a build.
 - **Keep engine and content apart** (§8.2 rule).
 - **Mark deferrals** with `// TODO(v2|v3|v4|v1.x): …` so they're greppable.
 - **Skills:** if a suitable frontend/Three.js skill is available, use it; otherwise, once v0.4 patterns are stable, create a project skill (e.g., `.claude/skills/uyir-scene-builder/`) capturing how to add a node and a scene segment.
