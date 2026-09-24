@@ -159,6 +159,10 @@ Draft structure only. Titles and dates come from the CV `[FROM CV]`; the CV was 
 
 Add or remove rows to land at 10–15 nodes once the CV is in.
 
+> **2026-09-25, test phase:** the v0.3 scenes are built from vg's alpine reference photos,
+> good nature images standing in while the story waits. **vg will write the story
+> themselves, later** (v0.7). Nothing in this table gets drafted for them.
+
 ---
 
 ## 7. Art pipeline: photos → painted scenes

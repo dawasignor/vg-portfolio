@@ -45,12 +45,24 @@ GSAP only if drei's scroll turns out not to be enough.
 
 - [x] **v0.1 Scaffold.** Vite + React + R3F, git, this file, a spinning cube (2026-09-25)
 - [x] **v0.2 Camera rail.** First-person rail over a grey-box heightfield, scroll 0–1 → t (2026-09-25)
-- [ ] v0.3 Segments & light
+- [x] **v0.3 Segments & light.** Nine segment components, photo-referenced looks, a day-night cycle (2026-09-25)
 - [ ] v0.4 Nodes from JSON
 - [ ] v0.5 UI shell
 - [ ] v0.6 Art pass
 - [ ] v0.7 Content pass
 - [ ] v1.0 Polish
+
+## Reference photos and the story (2026-09-25)
+
+- `Image feed/` holds vg's raw alpine reference photos. It is **gitignored and must stay
+  that way**: the files are large, and most carry **GPS coordinates in their EXIF**. Read
+  them for shape, colour and light only. Anything that ships goes to `public/media/`, resized
+  and with EXIF stripped (the media prep step is still to be built; see §8.4).
+- Palettes marked `ref GOPR…` in `src/styles/presets/` and `src/scenes/` were sampled
+  from those photos. `default` means there's no reference yet.
+- **The story is vg's to write.** vg said so explicitly: *"lets work on the story later,
+  ill do it myself."* Don't draft node titles, text or easter eggs. The `[FROM CV]` and
+  `[CONFIRM]` slots stay as they are until vg fills them.
 
 ## How the rail works (v0.2)
 
