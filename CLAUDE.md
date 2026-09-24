@@ -42,7 +42,7 @@ GSAP only if drei's scroll turns out not to be enough.
 
 ## Where the build stands (design doc §9)
 
-- [ ] **v0.1 Scaffold.** Vite + React + R3F, git, this file, a spinning cube (in progress)
+- [x] **v0.1 Scaffold.** Vite + React + R3F, git, this file, a spinning cube (2026-09-25)
 - [ ] v0.2 Camera rail
 - [ ] v0.3 Segments & light
 - [ ] v0.4 Nodes from JSON
