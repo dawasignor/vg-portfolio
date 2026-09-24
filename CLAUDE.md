@@ -37,20 +37,34 @@ pick an answer yourself.
 ## Stack (design doc §8.1)
 
 Vite · React · TypeScript · Three.js via React Three Fiber (`@react-three/fiber`).
-To be added at the milestone that needs each one: `@react-three/drei` (v0.2: scroll,
-curves, `Html` cards), `@react-three/postprocessing` (v0.6: the painterly look), and
+`@react-three/drei` (since v0.2: `ScrollControls`, `Line`; `Html` cards come at v0.4).
+To be added at the milestone that needs it: `@react-three/postprocessing` (v0.6: the painterly look), and
 GSAP only if drei's scroll turns out not to be enough.
 
 ## Where the build stands (design doc §9)
 
 - [x] **v0.1 Scaffold.** Vite + React + R3F, git, this file, a spinning cube (2026-09-25)
-- [ ] v0.2 Camera rail
+- [x] **v0.2 Camera rail.** First-person rail over a grey-box heightfield, scroll 0–1 → t (2026-09-25)
 - [ ] v0.3 Segments & light
 - [ ] v0.4 Nodes from JSON
 - [ ] v0.5 UI shell
 - [ ] v0.6 Art pass
 - [ ] v0.7 Content pass
 - [ ] v1.0 Polish
+
+## How the rail works (v0.2)
+
+- `src/engine/journeyPath.ts` samples a `Route`'s ground along its trail and threads a
+  `CatmullRomCurve3` through the samples, one `EYE_HEIGHT` up. Scene code supplies the route.
+- `src/engine/CameraRail.tsx` runs each frame inside `<ScrollControls>`: scroll offset →
+  `t` → `getPointAt(t)` for position, and the tangent for the look direction.
+- `src/scenes/greybox/terrain.ts` is the placeholder world: one `groundHeight(x, z)`
+  that both the mesh and the path read.
+
+**Testing in a hidden Browser pane:** no animation frames run there, and drei ignores
+scroll events until its first frame, so real scrolling can't be tested. Drive R3F by hand
+instead: get the root from `@react-three/fiber`'s `_roots` for the canvas, set drei's
+scroll state (found in the R3F fiber tree) and call `store.getState().advance(ts)`.
 
 ## Running it
 
