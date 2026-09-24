@@ -180,9 +180,9 @@ const STEEP_GROUND: ReadonlyArray<Stop<Color>> = [
 const SAND = c('#d8caa0')
 
 // A flat grid bent into shape: each vertex is lifted to groundHeight, then
-// coloured by where it is on the journey and how steep it is. ~8 m between vertices.
+// coloured by where it is on the journey and how steep it is. ~12 m between vertices.
 export function buildTerrainGeometry() {
-  const geometry = new PlaneGeometry(1800, 4400, 225, 550)
+  const geometry = new PlaneGeometry(1800, 4400, 150, 366)
   geometry.rotateX(-Math.PI / 2) // lie flat: the plane's y axis becomes -z
   geometry.translate(0, 0, -JOURNEY_LENGTH / 2) // centre it on the journey
 
