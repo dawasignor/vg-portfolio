@@ -1,7 +1,86 @@
 # Handover: portfolio-maker
 
-*Written 2026-09-25, at the end of the session that built v0.1–v0.3. Read this first, then
-`CLAUDE.md` (the working rules), then `docs/design-doc.md` (the spec, and the source of truth).*
+*Written 2026-09-25 after v0.1–v0.3; **updated 2026-09-26 after semester 1** (see §0). Read this
+first, then `CLAUDE.md` (the working rules), then `docs/design-doc.md` (the spec, and the
+source of truth).*
+
+---
+
+## 0. Update 2026-09-26: semester 1 is built
+
+**Status:** v0.4 in progress. The first quarter of the journey is **semester 1**, complete and
+verified: a foothill river valley walked upstream, with seven stops, set pieces, pauses and
+cards. The other three quarters still hold the v0.3 mountain-to-sea world, until the later
+semesters are planned with the owner.
+
+**Every §12 question is settled** (design doc §12, repo `CLAUDE.md` table). Two answers change
+how you work:
+- **Q6, voice:** node text is a minstrel telling the world about the owner. Claude drafts it,
+  **only from facts the owner supplied**, and marks every draft `"draft": true` until approved.
+- **Q11, identity:** no personal info. The project is being explored as a **tool for artists**,
+  so keep everything person-specific in `content/`.
+
+### How a stop works now
+
+1. **Content** (`content/journeys/masters.json`): each stop has `t` (0–1 journey progress),
+   `title`, `text`, `setPieces` (names), `gaze` (preset + side), and `sound` (a file slot).
+2. **The pause:** `progressAtScroll()` (`engine/journeyProgress.ts`) adds a **flat stretch of
+   ~110 px** (one wheel notch) at each stop's `t`. The arriving scroll holds; the next moves
+   past. The page scroll is never blocked.
+3. **The look:** `stopTransitions()` (`scenes/greybox/layout.ts`) turns each stop's `gaze` into
+   a camera move centred on the stop. `look-aside.json` peaks at ~38° exactly where the pause
+   holds, so the traveller looks at the set piece while the reader reads.
+4. **Set pieces** (`scenes/setpieces/`, registry in `index.ts`) place themselves relative to the
+   pause point `s` (world progress), which `Journey.tsx` converts from `t` through the path.
+   A piece looking to the left at 38° should sit about `dx / tan(38°)` metres ahead.
+5. **The card:** `StopTracker` publishes the active stop to `engine/stopStore.ts`, and
+   `ui/StopCard.tsx` (outside the canvas) fades it in.
+6. **Moving pieces:** `useAmbientZone(position, radius)` (`engine/ambient.ts`) keeps frames
+   coming at ~30 fps only while the camera is near. Everywhere else still draws on demand.
+7. **Sound:** `ui/SoundToggle.tsx`, off by default. The loop from the last-passed stop's `sound`
+   file crossfades. Missing files are silent. The slots are listed in `public/audio/README.md`.
+
+### Semester 1 at a glance
+
+| t | Stop | Set piece |
+|---|---|---|
+| 0.000 | Joining the ABCD-Centre | trail-junction: the Bachelor's and work trails join; a tent |
+| 0.045 | Contaminant Transport Modelling | sediment-flow down the river |
+| 0.090 | Sustainable River Basin Management | river-village + water wheel (ω = flow / radius) |
+| 0.135 | Physicochemical Treatment of Wastewater | windmill |
+| 0.180 | Climate Adaptation and Coastal Engineering | seagulls; the sea glimpsed on the right (gaze strength 1.8) |
+| 0.215 | Groundwater Engineering | well; a generic figure seen from behind hauls the bucket as you scroll |
+| 0.250 | The first semester ends | (the mountain foot; the boundary camera move frames the towers) |
+
+Measured on an Intel UHD at 1920×1080: 8–13 ms median per frame, 24 ms worst.
+
+### New tools
+
+- `npm run stylize`: repaint cleared photos through **OpenRouter** (`/api/v1/images`). A dry run
+  by default; `-- --send` actually calls the model, which costs money. `OPENROUTER_API_KEY` and
+  `OPENROUTER_IMAGE_MODEL` live in `.env` (gitignored; see `.env.example`), and **both are the
+  owner's to set: never choose the model**. Only gate-cleared media can be sent. The prompt
+  forbids adding or restoring faces, and outputs stay `"reviewed": false` until checked. The
+  local-model provider is stubbed for v2.
+
+### Waiting on the owner
+
+- `[CONFIRM]` the start year: they wrote July 2026; the CV says July 2024 (July 2024 is used).
+- Approve or rewrite the seven draft texts.
+- Course dates within semester 1 (`[FROM VG]`).
+- The tree species list from the Nevegal project (for the v0.6 big trees).
+- Sound files for the seven slots. GDPR: no recognisable voices.
+- The plan for semester 2 onward.
+
+### Lessons added this session
+
+- **Check that the promise matches the picture.** The coastal card said "look right: the sea",
+  but the camera looked into a hill until the coastal lowland was lengthened and the gaze
+  widened. Look at every stop.
+- **Hidden-pane screenshots of a scrolled page come out blank.** Verify the scroll path with
+  numbers (real `scrollTo` + scroll event), then take pictures by setting progress directly
+  with the page at the top. The progress ref is the `ProgressContext` value in the R3F fiber tree.
+- **The shell's quoted heredoc still broke on some text.** Write a script file and run it.
 
 ---
 
@@ -15,8 +94,7 @@ The engine (`src/`) is **generic**; a journey is defined by content (`content/`,
 `public/media/`). That split is deliberate. It is what lets the engine become a template
 later (design doc §11, v4).
 
-**Status:** v0.3 of 1.0. You can scroll through a full grey-box world with a day-night
-cycle, based on alpine reference photos. There are no story nodes yet.
+**Status:** see §0. Semester 1 (the first quarter) has stops; the rest is the v0.3 world.
 
 ---
 
@@ -28,6 +106,7 @@ npm run dev          # http://localhost:5180
 npm run build        # typecheck + production build
 npm run lint         # oxlint
 npm run media        # the GDPR media gate (needs the raw photos locally; see §6)
+npm run stylize      # repaint cleared photos via OpenRouter: dry run; add -- --send to call (costs money)
 ```
 
 - The port is fixed at **5180** (`strictPort`), because 5173 belongs to another project on

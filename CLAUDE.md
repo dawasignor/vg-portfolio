@@ -67,7 +67,7 @@ the media gate. To be added at the milestone that needs it: `@react-three/postpr
 - [x] **v0.1 Scaffold.** Vite + React + R3F, git, this file, a spinning cube (2026-09-25)
 - [x] **v0.2 Camera rail.** First-person rail over a grey-box heightfield, scroll 0–1 → t (2026-09-25)
 - [x] **v0.3 Segments & light.** Nine segment components, photo-referenced looks, a day-night cycle (2026-09-25)
-- [ ] v0.4 Nodes from JSON
+- [~] **v0.4 Nodes from JSON.** Semester 1 done (2026-09-26): stops, set pieces, pauses, cards, sound slots, the stylize path. Later semesters wait on vg's plan. See HANDOVER §0
 - [ ] v0.5 UI shell
 - [ ] v0.6 Art pass
 - [ ] v0.7 Content pass
