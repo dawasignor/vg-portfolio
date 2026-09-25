@@ -1,8 +1,12 @@
 html,
-body,
-#root {
+body {
   margin: 0;
-  height: 100%;
+}
+
+/* The 3D view stays put; the page scrolls past it and drives the journey. */
+#root {
+  position: fixed;
+  inset: 0;
 }
 
 body {

@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber'
-import { useScroll } from '@react-three/drei'
 import { MathUtils, PerspectiveCamera, Vector3, type CatmullRomCurve3 } from 'three'
 import type { MoveSample, Transition } from './cameraMove'
+import { useJourneyProgress } from './journeyProgress'
 
 /** The camera's normal field of view, in degrees. Camera moves zoom relative to this. */
 export const BASE_FOV = 60
@@ -22,14 +22,14 @@ type CameraRailProps = {
 }
 
 // First-person camera on rails (design doc §4.2, §12 Q5). Must sit inside
-// <ScrollControls>: every frame, the scroll offset (0–1) becomes t, the camera
+// <JourneyScroll>: every frame, the scroll offset (0–1) becomes t, the camera
 // stands at path(t) and looks along the direction of travel. Where t falls
 // inside a transition, that transition's camera move is layered on top.
 export function CameraRail({ path, transitions = [] }: CameraRailProps) {
-  const scroll = useScroll()
+  const progress = useJourneyProgress()
 
   useFrame(({ camera }) => {
-    const t = scroll.offset
+    const t = progress.current.offset
     path.getPointAt(t, camera.position)
     path.getTangentAt(t, tangent)
     target.copy(camera.position).addScaledVector(tangent, LOOK_AHEAD)

@@ -1,6 +1,5 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { useScroll } from '@react-three/drei'
 import {
   BackSide,
   BufferAttribute,
@@ -17,6 +16,7 @@ import {
   type ShaderMaterial,
 } from 'three'
 import { bracket, type Stop } from './blend'
+import { useJourneyProgress } from './journeyProgress'
 import type { Look } from './look'
 import { seededRandom } from './random'
 
@@ -65,9 +65,9 @@ const lerp = MathUtils.lerp
 
 // Time of day along the journey (design doc §4.1, §8.3): each frame, the scroll
 // position picks a spot between two looks in the schedule and blends sky, fog,
-// sun, ambient light and stars between them. Must sit inside <ScrollControls>.
+// sun, ambient light and stars between them. Must sit inside <JourneyScroll>.
 export function Atmosphere({ schedule }: { schedule: ReadonlyArray<Stop<Look>> }) {
-  const scroll = useScroll()
+  const progress = useJourneyProgress()
   const looks = useMemo(
     () => schedule.map(([at, look]) => [at, parseLook(look)] as const),
     [schedule],
@@ -98,7 +98,7 @@ export function Atmosphere({ schedule }: { schedule: ReadonlyArray<Stop<Look>> }
 
   useFrame(({ camera, scene }) => {
     if (!sky.current || !stars.current || !sun.current || !ambient.current) return
-    const [a, b, u] = bracket(looks, scroll.offset)
+    const [a, b, u] = bracket(looks, progress.current.offset)
 
     const skyMaterial = sky.current.material as ShaderMaterial
     const horizon = skyMaterial.uniforms.horizon.value as Color

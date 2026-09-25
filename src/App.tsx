@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { ScrollControls } from '@react-three/drei'
 import { Atmosphere } from './engine/Atmosphere'
 import { BASE_FOV, CameraRail } from './engine/CameraRail'
 import { buildJourneyPath } from './engine/journeyPath'
+import { JourneyScroll } from './engine/JourneyScroll'
 import { Journey } from './scenes/Journey'
 import { LIGHTING, SEGMENTS, TRANSITIONS } from './scenes/greybox/layout'
 import { greyBoxRoute } from './scenes/greybox/terrain'
@@ -29,11 +29,11 @@ export default function App() {
 
       {/* pages = how many screen-heights of scrolling the whole journey takes. */}
       {/* damping = seconds the camera takes to catch up with the scrollbar. Lower is snappier. */}
-      <ScrollControls pages={10} damping={0.12}>
+      <JourneyScroll pages={10} damping={0.12}>
         <CameraRail path={path} transitions={TRANSITIONS} />
         <Atmosphere schedule={LIGHTING} />
         <Journey segments={SEGMENTS} />
-      </ScrollControls>
+      </JourneyScroll>
     </Canvas>
   )
 }
