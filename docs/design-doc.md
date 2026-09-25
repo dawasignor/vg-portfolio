@@ -154,32 +154,53 @@ Field notes:
 
 ---
 
-## 6. Master's journey — node skeleton
+## 6. Master's journey: structure by semester
 
-Draft structure only. Titles and dates come from the CV `[FROM CV]`; the CV was not attached to this draft, so most slots are empty on purpose. Items marked `[CONFIRM]` are drawn from earlier conversation and need vg's approval.
+*Rewritten 2026-09-26 from vg's plan. The journey is built one semester at a time; each
+semester gets its share of the scroll. Semester 1 is the first quarter.*
 
-| # | Stage | Content | Mag. | Scene & light | Easter egg ideas |
-|---|---|---|---|---|---|
-| 1 | Opening | Gearing up for the Master's, July 2024 | 2 | Base camp, pre-dawn | A packed rucksack with a boarding-pass bookmark; a map with the route inked in |
-| 2 | Ascent | `[FROM CV]` first semester / arrival | 1–2 | Forest trail, morning | A trail sign in a new language |
-| 3 | Ascent | `[FROM CV]` | `[ ]` | Forest slope | `[ ]` |
-| 4 | Ascent | Nevegal forestry workshop `[CONFIRM]` | 3 | Dolomite peaks above spruce/larch forest; the pink alpenglow on the rock at dusk | A measuring tape wrapped around a tree trunk; a field notebook on a stump |
-| 5 | High country | `[FROM CV]` | `[ ]` | Alpine lake | `[ ]` |
-| 6 | High country | `[FROM CV]` award/publication? | 4 | Ridge vista, birds | `[ ]` |
-| 7 | High country | `[FROM CV]` | `[ ]` | Village in a valley | `[ ]` |
-| 8 | Crossing | Thesis begins: flood impact assessment `[CONFIRM]` | 4 | Summit pass, storm clouds clearing | A satellite tracing across the night sky; a rain gauge by the path |
-| 9 | Crossing | Thesis mid-review, Aug 2026 `[CONFIRM]` | 3 | Halfway cairn, night, stars | A stone cairn with one stone for each chapter |
-| 10 | River | Thesis case study, Kelani River `[CONFIRM]` | 4 | River valley at dawn | A paper boat on the water |
-| 11 | River | `[FROM CV]` | `[ ]` | Delta, wide water | `[ ]` |
-| 12 | Finale | Graduation `[CONFIRM]` date | 5 | Beach, sunrise or sunset `[CONFIRM]` | The traveller's boots left on the sand |
+**Span:** July 2024 → **October 2026** (§12 Q1). `[CONFIRM]` start year: vg wrote "July 2026";
+the CV says the joint M.Sc. began July 2024.
 
-Add or remove rows to land at 10–15 nodes once the CV is in.
+### Before the journey: base camp (t ≈ 0.02)
 
-> **2026-09-25, test phase:** the v0.3 scenes are built from vg's alpine reference photos,
-> good nature images standing in while the story waits. **vg will write the story
-> themselves, later** (v0.7). Nothing in this table gets drafted for them.
+Joining the ABCD-Centre programme. Everything before it (the Bachelor's, and the years of
+work) arrives as **two side trails that join the main trail at base camp**, like tributaries,
+each with a signpost. Their own journeys are separate tabs (Bachelor's; the work years), shown
+as "coming soon" until they're built (§12 Q2).
 
----
+### Semester 1: walking upstream through the foothills (t 0 → 0.25)
+
+The first quarter is new country: a river valley below the mountains. You walk **upstream
+along the river** toward the peaks; the water flows toward you. Each course is a stop with its
+own set piece:
+
+| t | Course (vg's words) | Set piece |
+|---|---|---|
+| 0.02 | Start: joining ABCD, July 2024 `[CONFIRM]` | Base camp; the Bachelor's and work trails join |
+| 0.06 | **Contaminant Transport Modelling** | Rocks and sediments carried down the river |
+| 0.10 | **Sustainable River Basin Management** | A village by the river, with a water wheel turning at the speed of the water |
+| 0.14 | **Physicochemical Treatment of Wastewater** | A windmill |
+| 0.18 | **Climate Adaptation and Coastal Engineering** | Seagulls, and a small view of the ocean on the horizon |
+| 0.22 | **Groundwater Engineering** | A well near the river, with a person pulling it; as you scroll, the bucket comes up. The figure is generic (GDPR) |
+| 0.25 | End of the first semester | The foot of the mountain, where the climb begins |
+
+### Semesters 2 onward (t 0.25 → 1.0)
+
+To be planned with vg, semester by semester. The mountain-to-sea world from v0.3 fills
+this stretch until then. Earlier ideas worth keeping for that planning (all still `[CONFIRM]`):
+the Nevegal summer school (Oct 2025) among Dolomite peaks; the Hackathon (Feb 2025) and the
+Merit Award (May 2026) as big vistas; the thesis on flood impact assessment at the summit; the
+graduation at the beach, **at sunrise** (§12 Q9).
+
+### Content rules
+
+- Node text is written in vg's chosen voice (§12 Q6): **a minstrel telling the world about
+  vg**, covering what they did, what they achieved, and what kind of person they are. Claude
+  drafts in that voice **only from facts vg has supplied**, and every draft is marked
+  `"draft": true` until vg approves it.
+- Set pieces are requested by content (a node lists the set pieces it wants), never hard-coded
+  to a person. This keeps the engine usable by any artist (§12 Q11).
 
 ## 7. Art pipeline: photos → painted scenes
 
@@ -199,7 +220,7 @@ An honest constraint: Claude (in chat or in Claude Code) does not itself turn a 
 | B. Local image model, scripted | A local img2img pipeline (e.g., Stable Diffusion via ComfyUI) with a painterly/anime style; a Claude Code skill runs the script over a folder | Repeatable, consistent, batchable | Needs a decent GPU and setup time |
 | C. In-browser shader | Photos stay raw; a Three.js post-processing filter paints them live | No image generation; any artist's upload gets the look instantly (great for the marketplace) | Less dramatic than true repainting |
 
-**Proposed for v1:** A for the hero images + C as the global look. Revisit B in v2. `[CONFIRM]` §12 Q3
+**Settled 2026-09-26 (§12 Q3): route B, an image model.** The target is a local model. For now there's a **cloud path through OpenRouter** (`scripts/stylize.mjs`), with the API key and the model left for vg to fill in. It only ever sends media that has passed the GDPR gate, and it only sends on an explicit `--send`. C (an in-browser filter) can still serve as the global look.
 
 ### 7.3 Naming the style
 Painting in a Ghibli-like manner is fine for vg's own site. For anything public-facing or in the future marketplace, label the preset descriptively (e.g., "painterly-anime") rather than using the studio's name, since the name itself is a trademark.
@@ -267,7 +288,7 @@ Each milestone has a learning goal so vg understands what was built, not just th
 | **v0.1 Scaffold** | Vite + React + R3F project, git repo, CLAUDE.md, a spinning cube | What a scene, camera, mesh and render loop are | Cube renders; first commit |
 | **v0.2 Camera rail** | Path curve + scroll-driven camera over a grey-box landscape | Curves, `t`, scroll-to-position mapping | Scrolling moves the camera start → end and back |
 | **v0.3 Segments & light** | Placeholder segments for all scene types; time-of-day blending | Lights, fog, materials, components | Full grey-box journey with day/night changes |
-| **v0.4 Nodes from JSON** | Load `masters.json`; markers at `t`; hover card showing `sceneDescription` | Data-driven rendering; React state | 10–15 markers, hover cards work with placeholder text |
+| **v0.4 Nodes from JSON** | Load `masters.json`; markers at `t`; hover card showing `sceneDescription`. **Now: semester 1 (§6): the foothill valley, its set pieces, cards at stall points (Q8), sound slots (Q7), and the OpenRouter stylize path (Q3)** | Data-driven rendering; React state | 10–15 markers, hover cards work with placeholder text |
 | **v0.5 UI shell** | Tabs (stubs), Personal/Public toggle (inert, `TODO`), progress bar, intro/loading screen | Layouts and UI over a 3D canvas | All UI present; toggle visibly marked TODO |
 | **v0.6 Art pass** | Painterly-anime post-processing preset; first stylized images; parallax layers for 2–3 nodes; flowers, big trees by species, river waves on rocks (§4.2a) | Post-processing, textures, parallax | Three nodes look "finished" |
 | **v0.7 Content pass** | All nodes filled from CV; all media in; easter eggs placed | Asset workflow | No `[FROM CV]` left in `masters.json` |
@@ -326,24 +347,33 @@ Tentative; versions will be refined and sub-versioned as they approach.
 ## 12. Open questions (settle inline)
 
 1. **CV:** It wasn't attached to this draft. Upload it and §6 gets filled. Also confirm the graduation date / journey end.
+   → **Settled 2026-09-26: the journey ends in October 2026.**
 2. **Stub tabs:** Should Bachelor's and Travels be visible but disabled ("coming soon") in v1, or hidden until they have content?
    → **Settled 2026-09-25: visible, with a "coming soon" placeholder; the button is not clickable.**
 3. **Stylization route:** Go with A + C for v1 (§7.2), or do you want B (local image model) now?
+   → **Settled 2026-09-26: B, a local model eventually. For now an OpenRouter path, with the key and model left for vg** (§7.2).
 4. **Language:** TypeScript (stricter, catches errors, helps Claude Code; steeper start) or JavaScript (gentler for learning)?
    → **Settled 2026-09-25: TypeScript.**
 5. **Traveller on screen:** Do we see the hiker (a figure walking ahead of the camera), or is it first-person, with the visitor as the traveller?
    → **Settled 2026-09-25: first-person, sometimes a first-person video.** The video part opened Q13.
 6. **Voice:** The original Uyir Nadhi concept was an AI personal secretary's notes. Should node text be written in that voice (e.g., dated log entries), or plain portfolio text?
+   → **Settled 2026-09-26: a portfolio of what vg did and achieved, and of what kind of person they are, told by a minstrel.** In vg's words: *"You are my minstrel for the world."* Claude drafts from vg's facts only; vg approves (§6).
 7. **Sound:** Ambient audio (wind, birds, water, waves) with a mute button, or silent?
+   → **Settled 2026-09-26: ambient sound from vg's own travel recordings.** The engine gets named sound slots and placeholders (`public/audio/`); vg uploads the files.
 8. **Stall points:** Should scrolling pause briefly at each node, or flow continuously with nodes just appearing as you pass?
+   → **Settled 2026-09-26: pause briefly, so the reader can take it in.** The first scroll lands on the stop and holds; the next one moves past. Built as a flat stretch in the scroll-to-progress mapping, not by blocking the page's scroll.
 9. **Finale light:** Sunrise or sunset at the beach?
+   → **Settled 2026-09-26: sunrise.**
 10. **Video in hover cards:** Autoplay muted loops, or click to play?
     → **Settled 2026-09-25: silent loops**, and the idea goes further: the whole world has silent looping life (§4.2a).
 11. **Identity:** What name/title appears on the site, and which contact links (email, LinkedIn, GitHub…)?
+    → **Settled 2026-09-26: no personal info for now.** vg wants to explore the project as a **tool for artists**, so identity stays a generic placeholder and the engine/content split matters more than ever.
 12. **Progress bar:** Keep the river-line progress indicator with jump-to-node (§4.2)?
+    → **Settled 2026-09-26: yes.**
 13. **First-person video segments** (raised by Q5):
     a. Does scroll *scrub* the footage (scroll forward = walk forward, scroll back = rewind), or does it play in real time once you arrive?
     b. Does the video cross-fade in full-screen, or play inside the landscape (e.g., on a surface in the scene)?
     c. Does the art-pass look apply to the footage, or does it stay raw, as a contrast to the painted world?
     d. Which milestone? Proposed: engine support at v0.6 (Art pass), alongside the first media. `[CONFIRM]`
+    → **Settled 2026-09-26: (a) scroll moves the footage forward and backward; (b) full screen with a fade; (c) raw; (d) v0.6.**
     Technical note: scrubbed video only seeks smoothly if it's encoded with very frequent keyframes. Keep clips short (≈5–15 s) and muted; the prep script belongs with the media workflow.

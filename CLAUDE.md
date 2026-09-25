@@ -39,10 +39,18 @@ stands.
 | §12 Q5 Traveller | First-person: the camera is the traveller. Sometimes a first-person video (details: open Q13) | 2026-09-25 |
 | §12 Q2 Stub tabs | Visible, "coming soon" placeholder, not clickable | 2026-09-25 |
 | §12 Q10 Video in cards | Silent loops. Plus a living world of silent loops: flowers and big trees and river waves at v0.6, birds and butterflies at v1.0 (design doc §4.2a). Tree species come from vg's Nevegal list, **awaited: don't invent species** | 2026-09-25 |
+| §12 Q1 Journey end | October 2026 | 2026-09-26 |
+| §12 Q3 Stylization | An image model: local eventually; an OpenRouter path for now (key + model are vg's to fill in) | 2026-09-26 |
+| §12 Q6 Voice | A minstrel telling the world about vg; Claude drafts from vg's facts, vg approves | 2026-09-26 |
+| §12 Q7 Sound | vg's own travel recordings; the engine provides slots and placeholders | 2026-09-26 |
+| §12 Q8 Stall points | The first scroll lands on a stop and holds; the next moves past | 2026-09-26 |
+| §12 Q9 Finale | Sunrise | 2026-09-26 |
+| §12 Q11 Identity | No personal info for now. The project is being explored as a tool for artists | 2026-09-26 |
+| §12 Q12 Progress bar | Yes | 2026-09-26 |
+| §12 Q13 First-person video | Scroll-scrubbed, full screen with a fade, raw, v0.6 | 2026-09-26 |
 | Dev server | Port **5180**, `strictPort`. 5173 is taken by another project on this machine | 2026-09-25 |
 
-Every other §12 question is still open. Ask about it when its milestone arrives, and don't
-pick an answer yourself.
+All §12 questions are settled as of 2026-09-26.
 
 ## Stack (design doc §8.1)
 
@@ -89,9 +97,11 @@ GOPR2784 and GOPR2785 show strangers' faces and stay excluded.
   and with EXIF stripped, through `npm run media` (see the media gate above).
 - Palettes marked `ref GOPR…` in `src/styles/presets/` and `src/scenes/` were sampled
   from those photos. `default` means there's no reference yet.
-- **The story is vg's to write.** vg said so explicitly: *"lets work on the story later,
-  ill do it myself."* Don't draft node titles, text or easter eggs. The `[FROM CV]` and
-  `[CONFIRM]` slots stay as they are until vg fills them.
+- **The story (updated 2026-09-26).** vg supplies the facts: courses, dates, set-piece ideas.
+  Claude drafts node text in vg's chosen voice, *"You are my minstrel for the world"* (design
+  doc §12 Q6), **only from those facts**. Every draft carries `"draft": true` until vg
+  approves it. Never invent achievements, dates or easter eggs. Earlier rule, superseded:
+  *"ill do it myself."*
 
 ## How the rail works
 
