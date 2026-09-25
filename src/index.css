@@ -12,3 +12,69 @@ body {
 body {
   background: #f6efe0;
 }
+
+/* Page overlay, above the canvas: the stop card and the sound toggle. */
+.stop-card {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  max-width: min(380px, calc(100vw - 48px));
+  padding: 18px 20px 16px;
+  border-radius: 10px;
+  background: rgba(246, 239, 224, 0.93);
+  color: #2f2419;
+  font-family: Georgia, 'Noto Serif', serif;
+  box-shadow: 0 8px 28px rgba(20, 16, 10, 0.25);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+.stop-card--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.stop-card__date {
+  margin: 0 0 4px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7a6448;
+}
+.stop-card__title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  line-height: 1.25;
+}
+.stop-card__text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.stop-card__scene {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  font-style: italic;
+  color: #6b5a45;
+}
+.stop-card__draft {
+  margin: 10px 0 0;
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #9a5b2e;
+}
+.sound-toggle {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(246, 239, 224, 0.9);
+  color: #2f2419;
+  font: 14px system-ui, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(20, 16, 10, 0.2);
+}

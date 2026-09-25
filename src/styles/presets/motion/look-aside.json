@@ -1,0 +1,36 @@
+{
+  "name": "look-aside",
+  "duration": 1,
+  "uuid": "9c2e4a71-6d3b-4f58-8a1e-2b7c5d9f0a36",
+  "blendMode": 2500,
+  "tracks": [
+    {
+      "name": ".fov",
+      "type": "number",
+      "times": [0, 0.25, 0.5, 0.75, 1],
+      "values": [1, 0.97, 0.92, 0.97, 1],
+      "interpolation": 2302
+    },
+    {
+      "name": ".yaw",
+      "type": "number",
+      "times": [0, 0.25, 0.5, 0.75, 1],
+      "values": [0, 18, 38, 18, 0],
+      "interpolation": 2302
+    },
+    {
+      "name": ".pitch",
+      "type": "number",
+      "times": [0, 0.25, 0.5, 0.75, 1],
+      "values": [0, -0.5, -1.5, -0.5, 0],
+      "interpolation": 2302
+    },
+    {
+      "name": ".roll",
+      "type": "number",
+      "times": [0, 0.25, 0.5, 0.75, 1],
+      "values": [0, 0.3, 0.5, 0.3, 0],
+      "interpolation": 2302
+    }
+  ]
+}

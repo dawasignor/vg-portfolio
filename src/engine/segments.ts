@@ -1,5 +1,6 @@
-/** The scene segment types from design doc §8.3, in journey order. */
+/** The scene segment types from design doc §8.3 (plus 'foothills', §6), in journey order. */
 export type SceneType =
+  | 'foothills'
   | 'mountain-base'
   | 'forest-slope'
   | 'alpine-lake'

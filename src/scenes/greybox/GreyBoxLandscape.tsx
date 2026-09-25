@@ -8,11 +8,11 @@ import {
   LAKE,
   LAKE_CENTRE,
   LAKE_LEVEL,
-  RIVER,
+  RIVERS,
   riverLevel,
-  riverWidth,
   riverX,
   trailX,
+  type River,
 } from './terrain'
 
 /** The trail is drawn slightly above the ground so the terrain doesn't swallow it. */
@@ -20,15 +20,17 @@ const TRAIL_LIFT = 0.3
 const WATER = '#6f8ea6' // ref GOPR2990: the pool by the hut, holding the sky
 const SEA = '#4f8fa6' // default
 
-// A flat ribbon along the river's centre line, widening into the delta.
-function buildRiverGeometry() {
+// A flat ribbon along a river's centre line, following its width.
+function buildRiverGeometry(river: River) {
   const steps = 300
+  const from = river.from + 0.02
+  const to = river.to - 0.005
   const positions: number[] = []
   const indices: number[] = []
   for (let i = 0; i <= steps; i++) {
-    const s = RIVER.from + 0.02 + ((RIVER.to - RIVER.from - 0.02) * i) / steps
-    const x = riverX(s)
-    const halfWidth = riverWidth(s) + 2
+    const s = from + ((to - from) * i) / steps
+    const x = riverX(river, s)
+    const halfWidth = river.width(s) + 2
     const y = riverLevel(s)
     const z = -s * JOURNEY_LENGTH
     positions.push(x - halfWidth, y, z, x + halfWidth, y, z)
@@ -44,15 +46,15 @@ function buildRiverGeometry() {
   return geometry
 }
 
-// The continuous landscape under every segment: ground, sea, trail, river, lake.
+// The continuous landscape under every segment: ground, seas, trail, rivers, lake.
 export function GreyBoxLandscape() {
   const terrain = useMemo(() => buildTerrainGeometry(), [])
-  const river = useMemo(() => buildRiverGeometry(), [])
+  const rivers = useMemo(() => Object.values(RIVERS).map(buildRiverGeometry), [])
 
   const trail = useMemo(() => {
     const points: Vector3[] = []
-    for (let i = 0; i <= 500; i++) {
-      const s = i / 500
+    for (let i = 0; i <= 700; i++) {
+      const s = i / 700
       const x = trailX(s)
       const z = -s * JOURNEY_LENGTH
       points.push(new Vector3(x, groundHeight(x, z) + TRAIL_LIFT, z))
@@ -66,15 +68,22 @@ export function GreyBoxLandscape() {
         <meshStandardMaterial vertexColors flatShading />
       </mesh>
 
-      {/* The sea: one flat plane at sea level, hidden under the land until the shore. */}
+      {/* The sea ahead: one flat plane at sea level, hidden under the land until the shore. */}
       <mesh rotation-x={-Math.PI / 2} position={[0, 0, -JOURNEY_LENGTH - 1500]}>
         <planeGeometry args={[8000, 4000]} />
         <meshStandardMaterial color={SEA} roughness={0.35} />
       </mesh>
-
-      <mesh geometry={river}>
-        <meshStandardMaterial color={WATER} roughness={0.2} metalness={0.1} />
+      {/* The coast to the right of the foothills: glimpsed where the land falls away. */}
+      <mesh rotation-x={-Math.PI / 2} position={[3700, 0, -500]}>
+        <planeGeometry args={[6600, 2400]} />
+        <meshStandardMaterial color={SEA} roughness={0.35} />
       </mesh>
+
+      {rivers.map((geometry, i) => (
+        <mesh key={i} geometry={geometry}>
+          <meshStandardMaterial color={WATER} roughness={0.2} metalness={0.1} />
+        </mesh>
+      ))}
 
       <mesh rotation-x={-Math.PI / 2} position={[LAKE_CENTRE.x, LAKE_LEVEL, LAKE_CENTRE.z]}>
         <circleGeometry args={[LAKE.radius * 0.8, 48]} />

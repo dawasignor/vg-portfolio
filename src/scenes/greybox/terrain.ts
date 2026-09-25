@@ -7,85 +7,113 @@ import { hash3 } from '../../engine/random'
 // path and every placed prop all read, so everything stands on the same ground.
 // Shapes and colours follow the reference photos where they exist ("ref"),
 // and are grey-box defaults where they don't yet ("default").
+//
+// Two countries (design doc §6): the first quarter is a foothill river valley
+// (semester 1), and the rest is the mountain-to-sea world. M() places the
+// mountain-to-sea world's numbers into the back three quarters, unchanged in
+// shape, so its slopes and scenes stay as they were built.
 
-/** Metres from base camp to the shore. */
-export const JOURNEY_LENGTH = 3000
+/** Metres from the start to the shore. */
+export const JOURNEY_LENGTH = 4000
+/** Where the foothills end and the mountain begins (progress 0–1). */
+export const FOOTHILLS_END = 0.25
+/** Maps a position in the mountain-to-sea world (0–1) onto the journey. */
+const M = (s: number) => FOOTHILLS_END + (1 - FOOTHILLS_END) * s
 
-/** Trail elevation along the journey (design doc §4.1): [progress 0–1, metres]. */
+/** Trail elevation along the journey (design doc §4.1, §6): [progress, metres]. */
 const TRAIL_ELEVATION: ReadonlyArray<Stop<number>> = [
-  [0.0, 20], // base camp, in a stony bowl under the towers
-  [0.1, 75], // up through the forest
-  [0.21, 150],
-  [0.235, 166], // over a brow, and the lake basin opens up below …
-  [0.29, 150], // … the trail drops to the water's edge
-  [0.35, 220], // a climb onto the ridge …
-  [0.4, 236], // … then along its top, the valleys opening on the right
-  [0.45, 260], // summit pass
-  [0.5, 228],
-  [0.62, 110], // down to the village
-  [0.8, 30], // river valley
-  [0.92, 5], // delta
-  [1.0, 1.5], // the beach
-  [1.2, -25], // under the sea
+  [0.0, 6], // foothills: a gentle climb upstream along the river …
+  [0.08, 9],
+  [0.16, 13],
+  [M(0.0), 20], // … to the foot of the mountain, in a stony bowl under the towers
+  [M(0.1), 75], // up through the forest
+  [M(0.21), 150],
+  [M(0.235), 166], // over a brow, and the lake basin opens up below …
+  [M(0.29), 150], // … the trail drops to the water's edge
+  [M(0.35), 220], // a climb onto the ridge …
+  [M(0.4), 236], // … then along its top, the valleys opening on the right
+  [M(0.45), 260], // summit pass
+  [M(0.5), 228],
+  [M(0.62), 110], // down to the village
+  [M(0.8), 30], // river valley
+  [M(0.92), 5], // delta
+  [M(1.0), 1.5], // the beach
+  [M(1.2), -25], // under the sea
 ]
 
-/** How high the valley walls rise left of the trail: tall in the mountains, low by the sea. */
+/** How high the ground rises left of the trail: low hills, then tall in the mountains. */
 const WALL_LEFT: ReadonlyArray<Stop<number>> = [
-  [0.0, 120],
-  [0.3, 260],
-  [0.5, 260],
-  [0.7, 90],
-  [0.9, 15],
-  [1.2, 5],
+  [0.0, 50],
+  [0.2, 80],
+  [M(0.0), 120],
+  [M(0.3), 260],
+  [M(0.5), 260],
+  [M(0.7), 90],
+  [M(0.9), 15],
+  [M(1.2), 5],
 ]
 
-/** Right of the trail: the same, except along the ridge, where the ground drops away
- *  into the valleys (negative = below the trail). ref GOPR2998–3000. */
+/** Right of the trail. In the foothills it falls away to a coast (the ocean glimpse
+ *  of semester 1); along the ridge it drops into the valleys (ref GOPR2998–3000). */
 const WALL_RIGHT: ReadonlyArray<Stop<number>> = [
-  [0.0, 120],
-  [0.27, 220],
-  [0.33, -160],
-  [0.41, -160],
-  [0.47, 220],
-  [0.5, 260],
-  [0.7, 90],
-  [0.9, 15],
-  [1.2, 5],
+  [0.0, 25],
+  [0.12, 25],
+  [0.16, -35], // down to the shore: the sea shows on the horizon …
+  [0.236, -30], // … all the way to the mountain's foot
+  [M(0.0), 120],
+  [M(0.27), 220],
+  [M(0.33), -160],
+  [M(0.41), -160],
+  [M(0.47), 220],
+  [M(0.5), 260],
+  [M(0.7), 90],
+  [M(0.9), 15],
+  [M(1.2), 5],
 ]
 
 /** Distant peaks for the big vistas. Kept well clear of the trail. */
 const PEAKS = [
-  { x: -620, z: -1275, height: 520, radius: 240 },
-  { x: 640, z: -930, height: 430, radius: 210 },
-  { x: -560, z: -1920, height: 360, radius: 230 },
-  { x: 600, z: -1620, height: 300, radius: 190 },
+  { x: -620, z: -2275, height: 520, radius: 240 },
+  { x: 640, z: -1930, height: 430, radius: 210 },
+  { x: -560, z: -2920, height: 360, radius: 230 },
+  { x: 600, z: -2620, height: 300, radius: 190 },
 ]
 
 /** The alpine lake, in the basin below the brow. You only see a mountain lake from
  *  above (ref GOPR2990 looks down on the pool by the hut), so the trail climbs
  *  a brow first. Left of the trail, where the bending trail keeps it in view. */
-export const LAKE = { s: 0.29, dx: -48, radius: 22 }
+export const LAKE = { s: M(0.29), dx: -48, radius: 22 }
 
-/** The river: runs beside the trail from the village down to the sea. */
-export const RIVER = { from: 0.6, to: 1.02 }
+export type River = {
+  from: number
+  to: number
+  /** +1 = right of the trail, -1 = left. */
+  side: 1 | -1
+  /** Half-width in metres at progress s. */
+  width: (s: number) => number
+}
+
+export const RIVERS: Readonly<Record<'foothill' | 'lowland', River>> = {
+  // Semester 1: you walk upstream beside it; it rises at the foot of the mountain.
+  foothill: { from: -0.2, to: FOOTHILLS_END + 0.005, side: -1, width: () => 6 },
+  // The mountain-to-sea world: from the village down to the sea, widening into the delta.
+  lowland: { from: M(0.6), to: M(1.02), side: 1, width: (s) => 5 + 25 * smoothstep(M(0.8), M(0.95), s) },
+}
 
 export function trailElevation(s: number) {
   return blendNumber(TRAIL_ELEVATION, s)
 }
 
-/** Sideways wander of the trail, in metres. */
+/** Sideways wander of the trail, in metres. The two stretches meet smoothly at
+ *  FOOTHILLS_END: same position, and the same direction of travel. */
 export function trailX(s: number) {
-  return 70 * Math.sin(s * Math.PI * 3.2)
+  if (s < FOOTHILLS_END) return 37.3 * Math.sin((2 * Math.PI * s) / FOOTHILLS_END)
+  return 70 * Math.sin(((s - FOOTHILLS_END) / (1 - FOOTHILLS_END)) * Math.PI * 3.2)
 }
 
-/** Half-width of the river, widening into the delta. */
-export function riverWidth(s: number) {
-  return 5 + 25 * smoothstep(0.8, 0.95, s)
-}
-
-/** River centre line: always far enough right that its banks never reach the trail. */
-export function riverX(s: number) {
-  return trailX(s) + 24 + riverWidth(s)
+/** River centre line: always far enough to the side that its banks never reach the trail. */
+export function riverX(river: River, s: number) {
+  return trailX(s) + river.side * (24 + river.width(s))
 }
 
 export function riverLevel(s: number) {
@@ -98,6 +126,11 @@ export const LAKE_CENTRE = {
 }
 export const LAKE_LEVEL = trailElevation(LAKE.s) - 1
 const LAKE_FLOOR = LAKE_LEVEL - 2.5
+
+/** 0–1: how much of a river runs at progress s, easing in at its source and out at its end. */
+function riverPresence(river: River, s: number) {
+  return smoothstep(river.from, river.from + 0.02, s) * smoothstep(river.to, river.to - 0.01, s)
+}
 
 export function groundHeight(x: number, z: number) {
   const s = -z / JOURNEY_LENGTH
@@ -114,11 +147,13 @@ export function groundHeight(x: number, z: number) {
   }
   let h = trailElevation(s) + walls + bumps + peaks * away
 
-  // The river channel, carved 3 m down.
-  const riverOn = smoothstep(RIVER.from, RIVER.from + 0.04, s)
-  if (riverOn > 0) {
-    const w = riverWidth(s)
-    h -= 3 * riverOn * smoothstep(w + 6, w, Math.abs(x - riverX(s)))
+  // River channels, carved 3 m down.
+  for (const river of Object.values(RIVERS)) {
+    const on = riverPresence(river, s)
+    if (on > 0) {
+      const w = river.width(s)
+      h -= 3 * on * smoothstep(w + 6, w, Math.abs(x - riverX(river, s)))
+    }
   }
 
   // The lake bowl: blend the ground down to a flat floor near the centre.
@@ -129,11 +164,13 @@ export function groundHeight(x: number, z: number) {
   return h
 }
 
-/** True if (x, z) is in the river, the lake or the sea, so props stay out of the water. */
+/** True if (x, z) is in a river, the lake or the sea, so props stay out of the water. */
 export function isWater(x: number, z: number) {
   const s = -z / JOURNEY_LENGTH
   if (groundHeight(x, z) < 1) return true
-  if (s > RIVER.from && Math.abs(x - riverX(s)) < riverWidth(s) + 4) return true
+  for (const river of Object.values(RIVERS)) {
+    if (riverPresence(river, s) > 0.5 && Math.abs(x - riverX(river, s)) < river.width(s) + 4) return true
+  }
   return Math.hypot(x - LAKE_CENTRE.x, z - LAKE_CENTRE.z) < LAKE.radius * 0.9
 }
 
@@ -142,6 +179,11 @@ export function groundPoint(s: number, dx: number) {
   const x = trailX(s) + dx
   const z = -s * JOURNEY_LENGTH
   return new Vector3(x, groundHeight(x, z), z)
+}
+
+/** Progress `metres` further along the journey from s. */
+export function ahead(s: number, metres: number) {
+  return s + metres / JOURNEY_LENGTH
 }
 
 export const greyBoxRoute: Route = {
@@ -154,37 +196,46 @@ const c = (hex: string) => new Color(hex)
 
 /** Colour of flat ground along the journey. */
 const FLAT_GROUND: ReadonlyArray<Stop<Color>> = [
-  [0.0, c('#6a6358')], // ref GOPR2990: grey-brown gravel of the hut's bowl
-  [0.09, c('#6a6358')],
-  [0.11, c('#4a4c39')], // ref GOPR2999: shaded conifer green
-  [0.2, c('#4a4c39')],
-  [0.23, c('#6e735b')], // ref GOPR2999: sunlit meadow, olive and hazy
-  [0.28, c('#6e735b')],
-  [0.31, c('#bfb6ab')], // ref GOPR2986: pale limestone scree
-  [0.48, c('#bfb6ab')],
-  [0.53, c('#6e735b')], // meadows again below the pass
-  [0.8, c('#6e735b')],
-  [0.87, c('#7d7a5a')], // default: delta flats
-  [0.93, c('#d8caa0')], // default: sand
+  [0.0, c('#6e735b')], // ref GOPR2999: sunlit meadow, olive and hazy (foothills)
+  [0.23, c('#6e735b')],
+  [M(0.0), c('#6a6358')], // ref GOPR2990: grey-brown gravel of the hut's bowl
+  [M(0.09), c('#6a6358')],
+  [M(0.11), c('#4a4c39')], // ref GOPR2999: shaded conifer green
+  [M(0.2), c('#4a4c39')],
+  [M(0.23), c('#6e735b')], // ref GOPR2999: sunlit meadow
+  [M(0.28), c('#6e735b')],
+  [M(0.31), c('#bfb6ab')], // ref GOPR2986: pale limestone scree
+  [M(0.48), c('#bfb6ab')],
+  [M(0.53), c('#6e735b')], // meadows again below the pass
+  [M(0.8), c('#6e735b')],
+  [M(0.87), c('#7d7a5a')], // default: delta flats
+  [M(0.93), c('#d8caa0')], // default: sand
 ]
 
-/** Colour of steep ground: bare rock in the mountains, wooded slopes lower down. */
+/** Colour of steep ground: wooded slopes low down, bare rock in the mountains. */
 const STEEP_GROUND: ReadonlyArray<Stop<Color>> = [
-  [0.0, c('#605b55')], // ref GOPR3025: warm grey rock
-  [0.3, c('#8b8477')], // ref GOPR2986: sunlit rock
-  [0.5, c('#7c7c7e')], // ref GOPR3025
-  [0.62, c('#5b5d4a')], // default: wooded slopes
-  [0.9, c('#7a715f')], // default: low cliffs by the sea
+  [0.0, c('#5b5d4a')], // default: wooded foothill slopes
+  [0.23, c('#5b5d4a')],
+  [M(0.0), c('#605b55')], // ref GOPR3025: warm grey rock
+  [M(0.3), c('#8b8477')], // ref GOPR2986: sunlit rock
+  [M(0.5), c('#7c7c7e')], // ref GOPR3025
+  [M(0.62), c('#5b5d4a')], // default: wooded slopes
+  [M(0.9), c('#7a715f')], // default: low cliffs by the sea
 ]
 
 const SAND = c('#d8caa0')
 
+/** Terrain extent along z: a little behind the start, and past the shore. */
+const TERRAIN_BEHIND = 700
+const TERRAIN_BEYOND = 700
+
 // A flat grid bent into shape: each vertex is lifted to groundHeight, then
 // coloured by where it is on the journey and how steep it is. ~12 m between vertices.
 export function buildTerrainGeometry() {
-  const geometry = new PlaneGeometry(1800, 4400, 150, 366)
+  const depth = TERRAIN_BEHIND + JOURNEY_LENGTH + TERRAIN_BEYOND
+  const geometry = new PlaneGeometry(1800, depth, 150, Math.round(depth / 12))
   geometry.rotateX(-Math.PI / 2) // lie flat: the plane's y axis becomes -z
-  geometry.translate(0, 0, -JOURNEY_LENGTH / 2) // centre it on the journey
+  geometry.translate(0, 0, TERRAIN_BEHIND - depth / 2) // from +TERRAIN_BEHIND to past the shore
 
   const position = geometry.attributes.position
   for (let i = 0; i < position.count; i++) {

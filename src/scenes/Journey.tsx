@@ -1,9 +1,15 @@
-import type { ComponentType } from 'react'
+import { useMemo, type ComponentType } from 'react'
+import type { CatmullRomCurve3 } from 'three'
+import type { StopNode } from '../engine/journey'
 import type { Segment, SceneType, SegmentProps } from '../engine/segments'
 import { GreyBoxLandscape } from './greybox/GreyBoxLandscape'
+import { JOURNEY_LENGTH } from './greybox/terrain'
+import { SET_PIECES } from './setpieces'
+import { StopMarkers } from './StopMarkers'
 import { AlpineLake } from './segments/AlpineLake'
 import { Beach } from './segments/Beach'
 import { Delta } from './segments/Delta'
+import { Foothills } from './segments/Foothills'
 import { ForestSlope } from './segments/ForestSlope'
 import { MountainBase } from './segments/MountainBase'
 import { Ridge } from './segments/Ridge'
@@ -13,6 +19,7 @@ import { Village } from './segments/Village'
 
 // One component per scene type (design doc §8.3).
 const SCENES: Record<SceneType, ComponentType<SegmentProps>> = {
+  foothills: Foothills,
   'mountain-base': MountainBase,
   'forest-slope': ForestSlope,
   'alpine-lake': AlpineLake,
@@ -24,8 +31,19 @@ const SCENES: Record<SceneType, ComponentType<SegmentProps>> = {
   beach: Beach,
 }
 
-// The whole world: the continuous landscape, plus each segment's own scenery.
-export function Journey({ segments }: { segments: ReadonlyArray<Segment> }) {
+type JourneyProps = {
+  segments: ReadonlyArray<Segment>
+  nodes: ReadonlyArray<StopNode>
+  path: CatmullRomCurve3
+}
+
+// The whole world: the continuous landscape, each segment's own scenery, and
+// each stop's lantern and set pieces.
+export function Journey({ segments, nodes, path }: JourneyProps) {
+  // Where each stop's pause stands in the world. Stops are given in journey progress
+  // (the scroll); set pieces need world progress (distance along z). The path converts.
+  const stopS = useMemo(() => nodes.map((node) => -path.getPointAt(node.t).z / JOURNEY_LENGTH), [nodes, path])
+
   return (
     <>
       <GreyBoxLandscape />
@@ -33,6 +51,17 @@ export function Journey({ segments }: { segments: ReadonlyArray<Segment> }) {
         const Scene = SCENES[segment.type]
         return <Scene key={`${segment.type}-${segment.from}`} segment={segment} />
       })}
+      <StopMarkers nodes={nodes} stopS={stopS} />
+      {nodes.flatMap((node, i) =>
+        (node.setPieces ?? []).map((name) => {
+          const Piece = SET_PIECES[name]
+          if (!Piece) {
+            console.warn(`Unknown set piece "${name}" at stop ${node.id}`)
+            return null
+          }
+          return <Piece key={`${node.id}-${name}`} s={stopS[i]} t={node.t} />
+        }),
+      )}
     </>
   )
 }

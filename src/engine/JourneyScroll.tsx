@@ -1,25 +1,40 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
-import { ProgressContext, type Progress } from './journeyProgress'
+import { ProgressContext, progressAtScroll, type Progress } from './journeyProgress'
 
 /** Longest step one frame may take; stops a jump after the page has sat idle. */
 const MAX_FRAME_SECONDS = 1 / 30
 
-// Turns the page's own scrollbar into journey progress. The page is made
-// `pages` screens tall and the canvas stays fixed behind it (see index.css).
-// Works with frameloop="demand": a scroll asks for a frame, and frames keep
-// coming only until the easing has caught up.
-export function JourneyScroll({ pages, damping, children }: { pages: number; damping: number; children: ReactNode }) {
+type JourneyScrollProps = {
+  /** Screens of scrolling for the travel itself, pauses not included. */
+  pages: number
+  /** Seconds the camera takes to catch up with the scrollbar. */
+  damping: number
+  /** Progress values (0–1) where the journey pauses for the reader (design doc §12 Q8). */
+  stops?: ReadonlyArray<number>
+  /** Scroll length of each pause, in CSS pixels. About one mouse-wheel notch: the scroll
+   *  that arrives lands on the stop and holds; the next one moves past. */
+  pausePx?: number
+  children: ReactNode
+}
+
+// Turns the page's own scrollbar into journey progress. The page is made tall
+// enough for the travel plus every pause, and the canvas stays fixed behind it
+// (see index.css). Works with frameloop="demand": a scroll asks for a frame, and
+// frames keep coming only until the easing has caught up.
+export function JourneyScroll({ pages, damping, stops = [], pausePx = 110, children }: JourneyScrollProps) {
   const progress = useRef<Progress>({ offset: 0, target: 0 })
   const invalidate = useThree((state) => state.invalidate)
 
   useEffect(() => {
+    const sorted = [...stops].sort((a, b) => a - b)
     const spacer = document.createElement('div')
-    spacer.style.height = `${pages * 100}vh`
+    spacer.style.height = `calc(${pages * 100}vh + ${sorted.length * pausePx}px)`
     document.body.appendChild(spacer)
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight
-      progress.current.target = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0
+      const travelPx = Math.max(max - sorted.length * pausePx, 1)
+      progress.current.target = progressAtScroll(window.scrollY, travelPx, sorted, pausePx)
       invalidate()
     }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -30,7 +45,7 @@ export function JourneyScroll({ pages, damping, children }: { pages: number; dam
       window.removeEventListener('resize', onScroll)
       spacer.remove()
     }
-  }, [pages, invalidate])
+  }, [pages, stops, pausePx, invalidate])
 
   useFrame((_, delta) => {
     const p = progress.current
