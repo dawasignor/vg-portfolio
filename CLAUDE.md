@@ -37,6 +37,8 @@ stands.
 |---|---|---|
 | §12 Q4 Language | TypeScript | 2026-09-25 |
 | §12 Q5 Traveller | First-person: the camera is the traveller. Sometimes a first-person video (details: open Q13) | 2026-09-25 |
+| §12 Q2 Stub tabs | Visible, "coming soon" placeholder, not clickable | 2026-09-25 |
+| §12 Q10 Video in cards | Silent loops. Plus a living world of silent loops: flowers and big trees and river waves at v0.6, birds and butterflies at v1.0 (design doc §4.2a). Tree species come from vg's Nevegal list, **awaited: don't invent species** | 2026-09-25 |
 | Dev server | Port **5180**, `strictPort`. 5173 is taken by another project on this machine | 2026-09-25 |
 
 Every other §12 question is still open. Ask about it when its milestone arrives, and don't

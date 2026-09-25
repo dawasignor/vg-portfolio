@@ -82,9 +82,24 @@ Day and night alternate through the journey; lighting is cinematic throughout, n
 - **First-person video, sometimes**: at chosen stops the 3D view gives way to real first-person footage, then returns to the landscape. How it behaves is §12 Q13. `[CONFIRM]`
 - At each node the scroll **slows or holds briefly** (a "stall point") so the visitor can take it in. `[CONFIRM]` §12 Q8
 - **Hovering** a node marker opens a card with the image/video and text. Moving away closes it.
-- **Tabs** switch journeys (reload a different journey definition into the same engine).
+- **Tabs** switch journeys (reload a different journey definition into the same engine). Tabs without content show a **"coming soon" placeholder and are not clickable** (§12 Q2, settled 2026-09-25).
 - **Personal/Public toggle**: visual only in v1. `TODO(v2)`
 - A small progress indicator (e.g., a thin river line with dots) shows where you are in the journey and lets you jump to a node. `[CONFIRM]`
+
+### 4.2a A living world (vg, 2026-09-25)
+
+The scenery should move quietly, in silent loops, so the journey feels alive. Each element is placed in the version that can support it:
+
+| Element | Behaviour | Version |
+|---|---|---|
+| **Flowers, lots of them** | Meadows and path edges; swaying gently | v0.6 Art pass |
+| **Big trees**, by species | Species taken from vg's list from the Nevegal project `[FROM VG]` (list to be supplied) | v0.6 Art pass (shapes); species list when vg provides it |
+| **River waves against rocks** | Water flowing and breaking around boulders in the river valley | v0.6 Art pass |
+| **Butterflies** | Small flutters near flowers, drifting away as the camera passes | v1.0 Polish |
+| **Birds**: some hopping, some flying in, some flying away | Ground birds hop by the trail; flocks arrive and leave as you scroll, and startle away as you approach | v1.0 Polish |
+| Hover-card video | Silent, automatically playing loops (§12 Q10) | v0.4 |
+
+Rules: every loop is silent, slow and never sudden (same principle as the camera presets); life scales with the achievement magnitude (grander stops, more life); everything must stay within the performance budget in HANDOVER.md §7.
 
 ### 4.3 Achievement magnitude → scene grandeur
 Each node has `magnitude` 1–5. The scene system uses it to scale the moment:
@@ -254,9 +269,9 @@ Each milestone has a learning goal so vg understands what was built, not just th
 | **v0.3 Segments & light** | Placeholder segments for all scene types; time-of-day blending | Lights, fog, materials, components | Full grey-box journey with day/night changes |
 | **v0.4 Nodes from JSON** | Load `masters.json`; markers at `t`; hover card showing `sceneDescription` | Data-driven rendering; React state | 10–15 markers, hover cards work with placeholder text |
 | **v0.5 UI shell** | Tabs (stubs), Personal/Public toggle (inert, `TODO`), progress bar, intro/loading screen | Layouts and UI over a 3D canvas | All UI present; toggle visibly marked TODO |
-| **v0.6 Art pass** | Painterly-anime post-processing preset; first stylized images; parallax layers for 2–3 nodes | Post-processing, textures, parallax | Three nodes look "finished" |
+| **v0.6 Art pass** | Painterly-anime post-processing preset; first stylized images; parallax layers for 2–3 nodes; flowers, big trees by species, river waves on rocks (§4.2a) | Post-processing, textures, parallax | Three nodes look "finished" |
 | **v0.7 Content pass** | All nodes filled from CV; all media in; easter eggs placed | Asset workflow | No `[FROM CV]` left in `masters.json` |
-| **v1.0 Polish** | Stall points, transitions, performance pass, desktop browser testing | Profiling, optimisation | Smooth on vg's PC; tagged `v1.0` |
+| **v1.0 Polish** | Stall points, transitions, performance pass, desktop browser testing; birds and butterflies (§4.2a) | Profiling, optimisation | Smooth on vg's PC; tagged `v1.0` |
 
 ---
 
@@ -312,6 +327,7 @@ Tentative; versions will be refined and sub-versioned as they approach.
 
 1. **CV:** It wasn't attached to this draft. Upload it and §6 gets filled. Also confirm the graduation date / journey end.
 2. **Stub tabs:** Should Bachelor's and Travels be visible but disabled ("coming soon") in v1, or hidden until they have content?
+   → **Settled 2026-09-25: visible, with a "coming soon" placeholder; the button is not clickable.**
 3. **Stylization route:** Go with A + C for v1 (§7.2), or do you want B (local image model) now?
 4. **Language:** TypeScript (stricter, catches errors, helps Claude Code; steeper start) or JavaScript (gentler for learning)?
    → **Settled 2026-09-25: TypeScript.**
@@ -322,6 +338,7 @@ Tentative; versions will be refined and sub-versioned as they approach.
 8. **Stall points:** Should scrolling pause briefly at each node, or flow continuously with nodes just appearing as you pass?
 9. **Finale light:** Sunrise or sunset at the beach?
 10. **Video in hover cards:** Autoplay muted loops, or click to play?
+    → **Settled 2026-09-25: silent loops**, and the idea goes further: the whole world has silent looping life (§4.2a).
 11. **Identity:** What name/title appears on the site, and which contact links (email, LinkedIn, GitHub…)?
 12. **Progress bar:** Keep the river-line progress indicator with jump-to-node (§4.2)?
 13. **First-person video segments** (raised by Q5):
