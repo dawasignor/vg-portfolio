@@ -45,9 +45,12 @@ pick an answer yourself.
 ## Stack (design doc §8.1)
 
 Vite · React · TypeScript · Three.js via React Three Fiber (`@react-three/fiber`).
-`@react-three/drei` (since v0.2: `ScrollControls`, `Line`; `Html` cards come at v0.4).
-To be added at the milestone that needs it: `@react-three/postprocessing` (v0.6: the painterly look), and
-GSAP only if drei's scroll turns out not to be enough.
+`@react-three/drei` (for `Line`; `Html` cards come at v0.4). **Not** drei's `ScrollControls`:
+it left the camera frozen on vg's machine (see `JourneyScroll`, below). `sharp` (dev only) runs
+the media gate. To be added at the milestone that needs it: `@react-three/postprocessing`
+(v0.6: the painterly look).
+
+**Start with `docs/HANDOVER.md`** for the full picture of what exists and why.
 
 ## Where the build stands (design doc §9)
 
@@ -81,26 +84,32 @@ GOPR2784 and GOPR2785 show strangers' faces and stay excluded.
 - `Image feed/` holds vg's raw alpine reference photos. It is **gitignored and must stay
   that way**: the files are large, and most carry **GPS coordinates in their EXIF**. Read
   them for shape, colour and light only. Anything that ships goes to `public/media/`, resized
-  and with EXIF stripped (the media prep step is still to be built; see §8.4).
+  and with EXIF stripped, through `npm run media` (see the media gate above).
 - Palettes marked `ref GOPR…` in `src/styles/presets/` and `src/scenes/` were sampled
   from those photos. `default` means there's no reference yet.
 - **The story is vg's to write.** vg said so explicitly: *"lets work on the story later,
   ill do it myself."* Don't draft node titles, text or easter eggs. The `[FROM CV]` and
   `[CONFIRM]` slots stay as they are until vg fills them.
 
-## How the rail works (v0.2)
+## How the rail works
 
 - `src/engine/journeyPath.ts` samples a `Route`'s ground along its trail and threads a
   `CatmullRomCurve3` through the samples, one `EYE_HEIGHT` up. Scene code supplies the route.
-- `src/engine/CameraRail.tsx` runs each frame inside `<ScrollControls>`: scroll offset →
-  `t` → `getPointAt(t)` for position, and the tangent for the look direction.
+- `src/engine/JourneyScroll.tsx`: the page itself scrolls (10 screens tall); the canvas is
+  fixed behind it (`index.css`). A window scroll listener sets the target progress and
+  requests a frame; the easing in `useFrame` keeps requesting frames only until it catches up
+  (`frameloop="demand"`).
+- `src/engine/CameraRail.tsx` reads that progress each frame: `t` → `getPointAt(t)` for the
+  position, the tangent for the look direction, plus any transition camera move on top.
 - `src/scenes/greybox/terrain.ts` is the placeholder world: one `groundHeight(x, z)`
   that both the mesh and the path read.
 
-**Testing in a hidden Browser pane:** no animation frames run there, and drei ignores
-scroll events until its first frame, so real scrolling can't be tested. Drive R3F by hand
-instead: get the root from `@react-three/fiber`'s `_roots` for the canvas, set drei's
-scroll state (found in the R3F fiber tree) and call `store.getState().advance(ts)`.
+**Testing in a hidden Browser pane:** no animation frames run there. Test the *real* scroll
+path: `window.scrollTo(…)`, then `dispatchEvent(new Event('scroll'))`, then step frames by hand
+(`_roots.get(canvas).store.getState().advance(performance.now())`) with real time between
+them, because the easing uses elapsed time. Never set the progress directly: that skipped the
+scroll path and hid a bug that froze the site for vg. Screenshots of a scrolled page can come
+out blank in a hidden pane; read pixels with `gl.readPixels` instead.
 
 ## Running it
 

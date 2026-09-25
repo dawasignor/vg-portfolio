@@ -196,7 +196,7 @@ Painting in a Ghibli-like manner is fine for vg's own site. For anything public-
 ### 8.1 Stack (proposed)
 - **Vite** — dev server and build tool
 - **React + React Three Fiber (R3F)** — Three.js written as React components
-- **@react-three/drei** — ready-made helpers: `ScrollControls`, `Html` (hover cards), curves, loaders
+- **@react-three/drei** — ready-made helpers: `Html` (hover cards), curves, loaders. *(2026-09-25: `ScrollControls` was replaced by a native page-scroll component after it froze the camera; see HANDOVER.md.)*
 - **@react-three/postprocessing** — painterly/bloom/grading effects
 - **GSAP** (optional) — fine-grained animation timing if drei scroll isn't enough
 - **Language:** TypeScript (settled 2026-09-25, §12 Q4)
