@@ -1,0 +1,11 @@
+{
+  "provider": "openrouter",
+  "style": "Repaint this photograph as a hand-painted anime-style background: soft painterly brushwork, luminous skies with layered clouds, gentle natural light, rich but calm greens, blues and warm stone colours, clean readable shapes. Keep the composition, the landforms, the objects and any people exactly where they are. People stay generic and faceless, seen as soft silhouettes: never add, restore or sharpen a face. No text, no signatures, no borders.",
+  "items": [
+    {
+      "input": "public/media/reference/gopr2915.webp",
+      "output": "public/media/stylized/gopr2915.webp",
+      "reviewed": false
+    }
+  ]
+}

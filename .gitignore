@@ -30,3 +30,8 @@ dist-ssr
 # Raw reference photos: large, and most carry GPS locations in their EXIF.
 # Never commit them; publishable media goes in public/media/ (stripped, resized).
 /Image feed/
+
+# Secrets: the OpenRouter key lives in .env, which must never be committed.
+.env
+.env.*
+!.env.example

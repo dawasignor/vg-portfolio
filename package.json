@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "media": "node scripts/clear-media.mjs"
+    "media": "node scripts/clear-media.mjs",
+    "stylize": "node --env-file-if-exists=.env scripts/stylize.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.8",
