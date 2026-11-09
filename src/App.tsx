@@ -11,6 +11,7 @@ import { StopTracker } from './engine/StopTracker'
 import { Journey } from './scenes/Journey'
 import { LIGHTING, SEGMENTS, stopTransitions, TRANSITIONS } from './scenes/greybox/layout'
 import { greyBoxRoute } from './scenes/greybox/terrain'
+import { ComingSoon } from './ui/ComingSoon'
 import { SoundToggle } from './ui/SoundToggle'
 import { StopCard } from './ui/StopCard'
 
@@ -41,8 +42,9 @@ export default function App() {
         <fog attach="fog" args={['#9aa4ab', 150, 2200]} />
 
         {/* pages = screens of scrolling for the travel; each stop adds one short pause.
+            introScreens = the landing screen ("Coming soon") before the journey starts.
             damping = seconds the camera takes to catch up with the scrollbar. */}
-        <JourneyScroll pages={24} damping={0.12} stops={STOPS}>
+        <JourneyScroll pages={24} damping={0.12} stops={STOPS} introScreens={1}>
           <CameraRail path={path} transitions={CAMERA_MOVES} />
           <Atmosphere schedule={LIGHTING} />
           <Journey segments={SEGMENTS} nodes={JOURNEY.nodes} path={path} />
@@ -50,6 +52,7 @@ export default function App() {
           <AmbientTicker />
         </JourneyScroll>
       </Canvas>
+      <ComingSoon />
       <StopCard nodes={JOURNEY.nodes} />
       <SoundToggle nodes={JOURNEY.nodes} />
     </>

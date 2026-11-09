@@ -15,6 +15,8 @@ type JourneyScrollProps = {
   /** Scroll length of each pause, in CSS pixels. About one mouse-wheel notch: the scroll
    *  that arrives lands on the stop and holds; the next one moves past. */
   pausePx?: number
+  /** Screens of scroll before the journey starts (a landing screen). Progress holds at 0. */
+  introScreens?: number
   children: ReactNode
 }
 
@@ -22,19 +24,20 @@ type JourneyScrollProps = {
 // enough for the travel plus every pause, and the canvas stays fixed behind it
 // (see index.css). Works with frameloop="demand": a scroll asks for a frame, and
 // frames keep coming only until the easing has caught up.
-export function JourneyScroll({ pages, damping, stops = [], pausePx = 110, children }: JourneyScrollProps) {
+export function JourneyScroll({ pages, damping, stops = [], pausePx = 110, introScreens = 0, children }: JourneyScrollProps) {
   const progress = useRef<Progress>({ offset: 0, target: 0 })
   const invalidate = useThree((state) => state.invalidate)
 
   useEffect(() => {
     const sorted = [...stops].sort((a, b) => a - b)
     const spacer = document.createElement('div')
-    spacer.style.height = `calc(${pages * 100}vh + ${sorted.length * pausePx}px)`
+    spacer.style.height = `calc(${(pages + introScreens) * 100}vh + ${sorted.length * pausePx}px)`
     document.body.appendChild(spacer)
     const onScroll = () => {
+      const intro = introScreens * window.innerHeight
       const max = document.documentElement.scrollHeight - window.innerHeight
-      const travelPx = Math.max(max - sorted.length * pausePx, 1)
-      progress.current.target = progressAtScroll(window.scrollY, travelPx, sorted, pausePx)
+      const travelPx = Math.max(max - intro - sorted.length * pausePx, 1)
+      progress.current.target = progressAtScroll(Math.max(window.scrollY - intro, 0), travelPx, sorted, pausePx)
       invalidate()
     }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -45,7 +48,7 @@ export function JourneyScroll({ pages, damping, stops = [], pausePx = 110, child
       window.removeEventListener('resize', onScroll)
       spacer.remove()
     }
-  }, [pages, stops, pausePx, invalidate])
+  }, [pages, stops, pausePx, introScreens, invalidate])
 
   useFrame((_, delta) => {
     const p = progress.current

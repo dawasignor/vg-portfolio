@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { StopNode } from '../engine/journey'
 import { useStopState } from '../engine/stopStore'
+import { useLandingFade } from './landing'
 
 const VOLUME = 0.6
 const FADE_MS = 800
@@ -15,6 +16,7 @@ export function SoundToggle({ nodes }: { nodes: ReadonlyArray<StopNode> }) {
   const audio = useRef<HTMLAudioElement | null>(null)
 
   const src = nodes.find((n) => n.id === region)?.sound
+  const landed = useLandingFade() >= 1
 
   useEffect(() => {
     if (!on || !src) return
@@ -46,6 +48,7 @@ export function SoundToggle({ nodes }: { nodes: ReadonlyArray<StopNode> }) {
     }
   }, [on])
 
+  if (!landed) return null
   return (
     <button type="button" className="sound-toggle" onClick={() => setOn((v) => !v)} aria-pressed={on}>
       {on ? '♪ Sound on' : '♪ Sound off'}

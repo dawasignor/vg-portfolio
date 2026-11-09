@@ -78,3 +78,24 @@ body {
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(20, 16, 10, 0.2);
 }
+
+/* The landing screen: one line, big, centred over the valley. */
+.coming-soon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.coming-soon__title {
+  margin: 0;
+  padding: 0 24px;
+  text-align: center;
+  font-family: Georgia, 'Noto Serif', serif;
+  font-weight: normal;
+  font-size: clamp(56px, 11vw, 168px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #f6efe0;
+  text-shadow: 0 4px 32px rgba(20, 16, 10, 0.55);
+}
