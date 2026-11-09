@@ -5,8 +5,64 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A glimpse into Vigneshvar's Master's journey</title>
+    <!-- The loading screen is plain HTML and CSS, so it shows from the first paint,
+         before the scripts run. Its wave moves with a transform animation, which the
+         browser keeps running even while the main thread is busy building the 3D world. -->
+    <style>
+      #loading {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        display: grid;
+        place-items: center;
+        background: #232b31;
+        color: #f6efe0;
+        font-family: Georgia, 'Noto Serif', serif;
+        transition: opacity 0.8s ease;
+      }
+      #loading.done {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #loading .wave {
+        width: 160px;
+        height: 30px;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      #loading .wave svg {
+        display: block;
+        animation: flow 1.6s linear infinite;
+      }
+      #loading p {
+        margin: 16px 0 0;
+        font-size: 18px;
+        letter-spacing: 0.06em;
+        text-align: center;
+      }
+      @keyframes flow {
+        to {
+          transform: translateX(-40px);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #loading .wave svg {
+          animation: none;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="loading" role="status" aria-live="polite">
+      <div>
+        <div class="wave" aria-hidden="true">
+          <svg width="240" height="30" viewBox="0 0 240 30">
+            <path d="M0 15 Q 10 5 20 15 T 40 15 T 60 15 T 80 15 T 100 15 T 120 15 T 140 15 T 160 15 T 180 15 T 200 15 T 220 15 T 240 15" fill="none" stroke="#9fc3d6" stroke-width="3" stroke-linecap="round" />
+          </svg>
+        </div>
+        <p>Loading the journey…</p>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

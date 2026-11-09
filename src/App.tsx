@@ -1,5 +1,5 @@
-import { useMemo } from 'react'
-import { Canvas } from '@react-three/fiber'
+import { useMemo, useRef } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
 import masters from '../content/journeys/masters.json'
 import { AmbientTicker } from './engine/ambient'
 import { Atmosphere } from './engine/Atmosphere'
@@ -12,6 +12,8 @@ import { Journey } from './scenes/Journey'
 import { LIGHTING, SEGMENTS, stopTransitions, TRANSITIONS } from './scenes/greybox/layout'
 import { greyBoxRoute } from './scenes/greybox/terrain'
 import { Landing } from './ui/Landing'
+import { finishLoading } from './ui/loading'
+import { ProgressBar } from './ui/ProgressBar'
 import { SoundToggle } from './ui/SoundToggle'
 import { StopCard } from './ui/StopCard'
 
@@ -20,6 +22,17 @@ import { StopCard } from './ui/StopCard'
 const JOURNEY = masters as JourneyDefinition
 const STOPS = JOURNEY.nodes.filter(isStop).map((node) => node.t)
 const CAMERA_MOVES = [...TRANSITIONS, ...stopTransitions(JOURNEY.nodes)]
+
+/** Ends the loading screen on the first frame the 3D world draws. */
+function ReadySignal() {
+  const done = useRef(false)
+  useFrame(() => {
+    if (done.current) return
+    done.current = true
+    finishLoading()
+  })
+  return null
+}
 
 export default function App() {
   const path = useMemo(() => buildJourneyPath(greyBoxRoute), [])
@@ -50,11 +63,13 @@ export default function App() {
           <Journey segments={SEGMENTS} nodes={JOURNEY.nodes} path={path} />
           <StopTracker nodes={JOURNEY.nodes} />
           <AmbientTicker />
+          <ReadySignal />
         </JourneyScroll>
       </Canvas>
       <Landing />
       <StopCard nodes={JOURNEY.nodes} />
       <SoundToggle nodes={JOURNEY.nodes} />
+      <ProgressBar nodes={JOURNEY.nodes} />
     </>
   )
 }

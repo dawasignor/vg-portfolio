@@ -25,3 +25,34 @@ export function progressAtScroll(y: number, travelPx: number, stops: ReadonlyArr
   }
   return Math.min(Math.max((y - paused) / travelPx, 0), 1)
 }
+
+/** How the page's scroll maps onto the journey, published by JourneyScroll for page UI
+ *  (the progress bar) that needs to read progress or jump to a stop. */
+export type ScrollGeometry = {
+  intro: number
+  travelPx: number
+  stops: ReadonlyArray<number>
+  pausePx: number
+}
+
+let geometry: ScrollGeometry | null = null
+
+export function setScrollGeometry(next: ScrollGeometry) {
+  geometry = next
+}
+
+/** Journey progress (0–1) at a page scroll position, or 0 before the journey is ready. */
+export function progressAtPageScroll(y: number) {
+  if (!geometry) return 0
+  const g = geometry
+  return progressAtScroll(Math.max(y - g.intro, 0), g.travelPx, g.stops, g.pausePx)
+}
+
+/** The page scroll position at the middle of the pause for the stop at progress `t`. */
+export function scrollForStop(t: number) {
+  if (!geometry) return 0
+  const g = geometry
+  const i = g.stops.indexOf(t)
+  if (i < 0) return g.intro + t * g.travelPx
+  return g.intro + t * g.travelPx + i * g.pausePx + g.pausePx / 2
+}

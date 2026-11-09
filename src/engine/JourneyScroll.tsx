@@ -1,6 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
-import { ProgressContext, progressAtScroll, type Progress } from './journeyProgress'
+import { ProgressContext, progressAtScroll, setScrollGeometry, type Progress } from './journeyProgress'
 
 /** Longest step one frame may take; stops a jump after the page has sat idle. */
 const MAX_FRAME_SECONDS = 1 / 30
@@ -37,6 +37,7 @@ export function JourneyScroll({ pages, damping, stops = [], pausePx = 110, intro
       const intro = introScreens * window.innerHeight
       const max = document.documentElement.scrollHeight - window.innerHeight
       const travelPx = Math.max(max - intro - sorted.length * pausePx, 1)
+      setScrollGeometry({ intro, travelPx, stops: sorted, pausePx })
       progress.current.target = progressAtScroll(Math.max(window.scrollY - intro, 0), travelPx, sorted, pausePx)
       invalidate()
     }

@@ -148,3 +148,84 @@ body {
   font-style: normal;
   font-size: clamp(30px, 4.4vw, 64px);
 }
+
+/* The river line: journey progress down the right edge, a dot per stop. */
+.river-bar {
+  position: absolute;
+  top: 12vh;
+  bottom: 16vh;
+  right: 30px;
+  width: 20px;
+}
+.river-bar__line,
+.river-bar__flow {
+  position: absolute;
+  left: 9px;
+  top: 0;
+  width: 2px;
+  border-radius: 1px;
+}
+.river-bar__line {
+  bottom: 0;
+  background: rgba(246, 239, 224, 0.35);
+}
+.river-bar__flow {
+  background: #9fc3d6;
+  box-shadow: 0 0 6px rgba(159, 195, 214, 0.8);
+}
+.river-bar__dot {
+  position: absolute;
+  left: 5px;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  padding: 0;
+  border: 2px solid rgba(246, 239, 224, 0.85);
+  border-radius: 50%;
+  background: rgba(35, 43, 49, 0.6);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.river-bar__dot.is-past {
+  background: #9fc3d6;
+}
+.river-bar__dot.is-active,
+.river-bar__dot:hover,
+.river-bar__dot:focus-visible {
+  transform: scale(1.5);
+  background: #f6efe0;
+}
+.river-bar__label {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 260px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: rgba(246, 239, 224, 0.94);
+  color: #2f2419;
+  font: 12px/1.3 system-ui, sans-serif;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.river-bar__dot:hover .river-bar__label,
+.river-bar__dot:focus-visible .river-bar__label {
+  opacity: 1;
+}
+.river-bar__you {
+  position: absolute;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: #ffcf8a;
+  box-shadow: 0 0 10px #ffcf8a;
+  pointer-events: none;
+}
