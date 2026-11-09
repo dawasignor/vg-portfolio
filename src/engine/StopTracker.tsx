@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber'
-import type { StopNode } from './journey'
+import { isStop, type StopNode } from './journey'
 import { useJourneyProgress } from './journeyProgress'
 import { setStopState } from './stopStore'
 
@@ -16,6 +16,7 @@ export function StopTracker({ nodes }: { nodes: ReadonlyArray<StopNode> }) {
     let active: string | null = null
     let region: string | null = null
     for (const node of nodes) {
+      if (!isStop(node)) continue
       if (Math.abs(t - node.t) < AT_STOP) active = node.id
       if (node.t <= t + AT_STOP) region = node.id
     }

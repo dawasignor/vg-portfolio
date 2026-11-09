@@ -1,6 +1,6 @@
 # Ambient sound slots
 
-Each stop in `content/journeys/masters.json` names a sound file here (`"sound"`).
+Each stop in `content/journeys/masters.json` names a sound file in `public/audio/` (`"sound"`).
 Drop a file in with that name, or change the name in the JSON. Loops play from
 that stop until the next one, crossfading, and only after the reader turns sound on.
 A missing file means silence.

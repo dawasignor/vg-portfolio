@@ -1,6 +1,6 @@
 import type { Stop } from '../../engine/blend'
 import type { Transition } from '../../engine/cameraMove'
-import type { StopNode } from '../../engine/journey'
+import { isStop, type StopNode } from '../../engine/journey'
 import type { Look } from '../../engine/look'
 import type { Segment } from '../../engine/segments'
 import { MOTION_PRESETS } from '../../styles/presets/motion'
@@ -72,14 +72,15 @@ export const TRANSITIONS: ReadonlyArray<Transition> = SEGMENTS.slice(1).map((seg
   move: MOTION_PRESETS['zoom-side-pan'],
 }))
 
-/** Share of the journey a stop's look takes: 3% ≈ 5 wheel notches, centred on the pause. */
-const STOP_GAZE_SPAN = 0.03
+/** Share of the journey a stop's look takes, centred on the pause. Narrower than the
+ *  gap between the closest stops, so one stop's look never runs into the next. */
+const STOP_GAZE_SPAN = 0.022
 
 /** The camera turns toward each stop's set piece and holds there during the pause. */
 export function stopTransitions(nodes: ReadonlyArray<StopNode>): Transition[] {
   return nodes.flatMap((node) => {
     const move = node.gaze && MOTION_PRESETS[node.gaze.preset]
-    if (!node.gaze || !move) return []
+    if (!isStop(node) || !node.gaze || !move) return []
     return [
       {
         at: node.t,

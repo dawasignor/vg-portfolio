@@ -19,13 +19,20 @@ export type Gaze = {
   strength?: number
 }
 
+/** A set piece by name, or by name with parameters (e.g. sky-writing's text and direction). */
+export type SetPieceRef = string | ({ name: string } & Record<string, unknown>)
+
 export type StopNode = {
   id: string
-  /** Where on the journey the stop sits, 0–1. The scroll pauses here (§12 Q8). */
+  /** "stop" (default): the scroll pauses and a card shows. "scenery": set pieces only,
+   *  no pause, no card, no lantern, e.g. an easter egg or a plane crossing the sky. */
+  kind?: 'stop' | 'scenery'
+  /** Where on the journey it sits, 0–1. Stops pause the scroll here (§12 Q8). */
   t: number
+  /** The small line above the title: an institution, a place or a date. */
   date?: string
-  title: string
-  text: string
+  title?: string
+  text?: string
   /** True until the owner approves the text (§12 Q6). */
   draft?: boolean
   magnitude: 1 | 2 | 3 | 4 | 5
@@ -33,8 +40,8 @@ export type StopNode = {
   timeOfDay?: string
   visibility: 'public' | 'personal'
   sceneDescription?: string
-  /** Named props from the set-piece library, placed around the stop. */
-  setPieces?: string[]
+  /** Props from the set-piece library, placed around the stop. */
+  setPieces?: SetPieceRef[]
   gaze?: Gaze
   /** An ambient sound file under public/audio/, played from this stop onwards (§12 Q7). */
   sound?: string
@@ -47,4 +54,9 @@ export type JourneyDefinition = {
   period: { start: string; end: string }
   stylePreset: string
   nodes: StopNode[]
+}
+
+/** Nodes the scroll pauses at, with cards. */
+export function isStop(node: StopNode) {
+  return node.kind !== 'scenery'
 }

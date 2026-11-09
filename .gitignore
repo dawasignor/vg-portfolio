@@ -35,3 +35,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Local media work: cleared and stylized copies not used by the site yet.
+/media-work/

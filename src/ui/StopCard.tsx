@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { StopNode } from '../engine/journey'
 import { useStopState } from '../engine/stopStore'
-import { useLandingFade } from './landing'
+import { useLandingFade } from './landingFade'
 
 // The card for the stop the reader is paused at (design doc §4.2, §12 Q8). It
 // fades in on arrival and out on leaving. While fading out it keeps showing the
@@ -21,8 +21,8 @@ export function StopCard({ nodes }: { nodes: ReadonlyArray<StopNode> }) {
   return (
     <aside className={`stop-card${visible ? ' stop-card--visible' : ''}`} aria-live="polite" aria-hidden={!visible}>
       {shown.date && <p className="stop-card__date">{shown.date}</p>}
-      <h2 className="stop-card__title">{shown.title}</h2>
-      <p className="stop-card__text">{shown.text}</p>
+      {shown.title && <h2 className="stop-card__title">{shown.title}</h2>}
+      {shown.text && <p className="stop-card__text">{shown.text}</p>}
       {shown.sceneDescription && <p className="stop-card__scene">{shown.sceneDescription}</p>}
       {shown.draft && <p className="stop-card__draft">Draft: awaiting the owner's approval</p>}
     </aside>

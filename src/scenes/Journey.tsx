@@ -1,6 +1,6 @@
 import { useMemo, type ComponentType } from 'react'
 import type { CatmullRomCurve3 } from 'three'
-import type { StopNode } from '../engine/journey'
+import { isStop, type StopNode } from '../engine/journey'
 import type { Segment, SceneType, SegmentProps } from '../engine/segments'
 import { GreyBoxLandscape } from './greybox/GreyBoxLandscape'
 import { JOURNEY_LENGTH } from './greybox/terrain'
@@ -51,15 +51,19 @@ export function Journey({ segments, nodes, path }: JourneyProps) {
         const Scene = SCENES[segment.type]
         return <Scene key={`${segment.type}-${segment.from}`} segment={segment} />
       })}
-      <StopMarkers nodes={nodes} stopS={stopS} />
+      <StopMarkers
+        nodes={nodes.filter(isStop)}
+        stopS={stopS.filter((_, i) => isStop(nodes[i]))}
+      />
       {nodes.flatMap((node, i) =>
-        (node.setPieces ?? []).map((name) => {
+        (node.setPieces ?? []).map((ref) => {
+          const { name, ...params } = typeof ref === 'string' ? { name: ref } : ref
           const Piece = SET_PIECES[name]
           if (!Piece) {
-            console.warn(`Unknown set piece "${name}" at stop ${node.id}`)
+            console.warn(`Unknown set piece "${name}" at ${node.id}`)
             return null
           }
-          return <Piece key={`${node.id}-${name}`} s={stopS[i]} t={node.t} />
+          return <Piece key={`${node.id}-${name}`} s={stopS[i]} t={node.t} params={params} />
         }),
       )}
     </>

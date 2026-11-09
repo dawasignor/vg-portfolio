@@ -4,21 +4,21 @@ import masters from '../content/journeys/masters.json'
 import { AmbientTicker } from './engine/ambient'
 import { Atmosphere } from './engine/Atmosphere'
 import { BASE_FOV, CameraRail } from './engine/CameraRail'
-import type { JourneyDefinition } from './engine/journey'
+import { isStop, type JourneyDefinition } from './engine/journey'
 import { buildJourneyPath } from './engine/journeyPath'
 import { JourneyScroll } from './engine/JourneyScroll'
 import { StopTracker } from './engine/StopTracker'
 import { Journey } from './scenes/Journey'
 import { LIGHTING, SEGMENTS, stopTransitions, TRANSITIONS } from './scenes/greybox/layout'
 import { greyBoxRoute } from './scenes/greybox/terrain'
-import { ComingSoon } from './ui/ComingSoon'
+import { Landing } from './ui/Landing'
 import { SoundToggle } from './ui/SoundToggle'
 import { StopCard } from './ui/StopCard'
 
 // The journey is content (design doc §3): everything about the person comes from
 // this file. The engine below would run anyone's journey.
 const JOURNEY = masters as JourneyDefinition
-const STOPS = JOURNEY.nodes.map((node) => node.t)
+const STOPS = JOURNEY.nodes.filter(isStop).map((node) => node.t)
 const CAMERA_MOVES = [...TRANSITIONS, ...stopTransitions(JOURNEY.nodes)]
 
 export default function App() {
@@ -42,9 +42,9 @@ export default function App() {
         <fog attach="fog" args={['#9aa4ab', 150, 2200]} />
 
         {/* pages = screens of scrolling for the travel; each stop adds one short pause.
-            introScreens = the landing screen ("Coming soon") before the journey starts.
+            introScreens = the landing screen (title and scroll hint) before the journey starts.
             damping = seconds the camera takes to catch up with the scrollbar. */}
-        <JourneyScroll pages={24} damping={0.12} stops={STOPS} introScreens={1}>
+        <JourneyScroll pages={36} damping={0.12} stops={STOPS} introScreens={1}>
           <CameraRail path={path} transitions={CAMERA_MOVES} />
           <Atmosphere schedule={LIGHTING} />
           <Journey segments={SEGMENTS} nodes={JOURNEY.nodes} path={path} />
@@ -52,7 +52,7 @@ export default function App() {
           <AmbientTicker />
         </JourneyScroll>
       </Canvas>
-      <ComingSoon />
+      <Landing />
       <StopCard nodes={JOURNEY.nodes} />
       <SoundToggle nodes={JOURNEY.nodes} />
     </>

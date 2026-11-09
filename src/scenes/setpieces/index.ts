@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import { Seagulls, TrailJunction, Well, Windmill } from './LandPieces'
 import { RiverVillage, SedimentFlow } from './RiverPieces'
+import { Basketball, SkyWriting, TrainBridge } from './SkyPieces'
 import type { SetPieceProps } from './types'
 
 // The set-piece library. A journey's stops ask for pieces by name
@@ -12,4 +13,7 @@ export const SET_PIECES: Record<string, ComponentType<SetPieceProps>> = {
   windmill: Windmill,
   seagulls: Seagulls,
   well: Well,
+  basketball: Basketball,
+  'sky-writing': SkyWriting,
+  'train-bridge': TrainBridge,
 }

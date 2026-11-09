@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { StopNode } from '../engine/journey'
 import { useStopState } from '../engine/stopStore'
-import { useLandingFade } from './landing'
+import { useLandingFade } from './landingFade'
 
 const VOLUME = 0.6
 const FADE_MS = 800

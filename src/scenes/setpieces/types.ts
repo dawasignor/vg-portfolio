@@ -4,4 +4,6 @@ export type SetPieceProps = {
   s: number
   /** Journey progress (scroll) of the pause, 0–1, for pieces that move with the scroll. */
   t: number
+  /** Extra values from the journey file, e.g. { text, direction } for sky-writing. */
+  params: Record<string, unknown>
 }

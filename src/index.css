@@ -93,9 +93,42 @@ body {
   text-align: center;
   font-family: Georgia, 'Noto Serif', serif;
   font-weight: normal;
-  font-size: clamp(56px, 11vw, 168px);
-  line-height: 1;
-  letter-spacing: 0.02em;
+  max-width: 16em;
+  font-size: clamp(30px, 5.2vw, 76px);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
   color: #f6efe0;
   text-shadow: 0 4px 32px rgba(20, 16, 10, 0.55);
+}
+
+.coming-soon__hint {
+  margin: 0.9em 0 0;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  font-size: clamp(15px, 1.6vw, 22px);
+  letter-spacing: 0.04em;
+  color: #f6efe0;
+  text-shadow: 0 2px 14px rgba(20, 16, 10, 0.6);
+}
+
+/* Words written in the sky behind a plane, or following the train: soft, cloud-white. */
+.sky-writing {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-family: Georgia, 'Noto Serif', serif;
+  font-style: italic;
+  font-size: clamp(22px, 3vw, 44px);
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.9),
+    0 0 22px rgba(255, 255, 255, 0.7),
+    0 0 44px rgba(255, 255, 255, 0.45);
+  filter: blur(0.4px);
+  pointer-events: none;
+  user-select: none;
+}
+.sky-writing--small {
+  font-size: clamp(16px, 1.8vw, 26px);
 }
