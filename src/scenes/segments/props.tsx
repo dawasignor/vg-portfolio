@@ -2,7 +2,7 @@ import { useLayoutEffect, useMemo, useRef } from 'react'
 import {
   CatmullRomCurve3,
   Color,
-  ConeGeometry,
+  type BufferGeometry,
   CylinderGeometry,
   Object3D,
   TubeGeometry,
@@ -12,6 +12,7 @@ import {
 import { hash3, seededRandom } from '../../engine/random'
 import { within, type Segment } from '../../engine/segments'
 import { groundHeight, groundPoint, isWater, JOURNEY_LENGTH, trailElevation, trailX } from '../greybox/terrain'
+import { buildTreeGeometry, pickSpecies, SPECIES, type Species } from './trees'
 
 // Reusable grey-box props. Shapes and colours follow the reference photos
 // ("ref") where they exist; everything is a placeholder for the v0.6 art pass.
@@ -24,7 +25,6 @@ const BIVOUAC_METAL = '#505256' // ref GOPR3001
 const CROSS_WOOD = '#27241d' // ref GOPR2915
 const BOULDER = '#645d55' // ref GOPR2915
 const DEAD_WOOD = '#1d1a17' // ref GOPR2958: roots in silhouette
-const CONIFER = '#4a4c39' // ref GOPR2999
 const ROCK_LIGHT = '#8b8477' // ref GOPR2986
 const ROCK_DARK = '#605b55' // ref GOPR3025
 const SIGN_POST = '#8a8070' // ref GOPR2997
@@ -215,21 +215,20 @@ type ConiferProps = {
   maxOffset?: number
 }
 
-// Hundreds of cone trees in one draw call: an InstancedMesh shares one cone
-// shape, and each instance gets its own position, size and shade.
+// A mixed mountain forest: each tree's species comes from its elevation (see
+// trees.ts), and each species is one InstancedMesh, so a forest of hundreds of
+// trees is five draw calls. Every tree gets its own position, size, turn and shade.
 export function Conifers({ from, to, count, seed, band = [-40, 140], minOffset = 28, maxOffset = 380 }: ConiferProps) {
-  const mesh = useRef<InstancedMesh>(null)
-  const cone = useMemo(() => new ConeGeometry(3.2, 13, 6).translate(0, 6.5, 0), [])
+  const meshes = useRef<Partial<Record<Species, InstancedMesh | null>>>({})
+  const shapes = useMemo(() => Object.fromEntries(SPECIES.map((sp) => [sp, buildTreeGeometry(sp)])) as Record<Species, BufferGeometry>, [])
 
   useLayoutEffect(() => {
-    const trees = mesh.current
-    if (!trees) return
     const random = seededRandom(seed)
     const dummy = new Object3D()
-    const base = new Color(CONIFER)
     const shade = new Color()
-    let placed = 0
-    for (let attempt = 0; attempt < count * 4 && placed < count; attempt++) {
+    const placed: Record<Species, number> = { 'norway-spruce': 0, 'silver-fir': 0, larch: 0, 'scots-pine': 0, 'mountain-pine': 0 }
+    let total = 0
+    for (let attempt = 0; attempt < count * 4 && total < count; attempt++) {
       const s = from + (to - from) * random()
       const side = random() < 0.5 ? -1 : 1
       const dx = side * (minOffset + (maxOffset - minOffset) * random() ** 1.5)
@@ -238,24 +237,42 @@ export function Conifers({ from, to, count, seed, band = [-40, 140], minOffset =
       const y = groundHeight(x, z)
       const height = y - trailElevation(s)
       if (height < band[0] || height > band[1] || isWater(x, z)) continue
+      const species = pickSpecies(y, random())
+      const trees = meshes.current[species]
+      if (!trees) continue
       const size = 0.7 + random() * 0.7
-      dummy.position.set(x, y, z)
-      dummy.scale.set(size, size * (0.9 + random() * 0.4), size)
+      dummy.position.set(x, y - 0.3, z)
+      dummy.scale.set(size, size * (0.9 + random() * 0.3), size)
       dummy.rotation.y = random() * Math.PI * 2
       dummy.updateMatrix()
-      trees.setMatrixAt(placed, dummy.matrix)
-      trees.setColorAt(placed, shade.copy(base).offsetHSL(0, 0, (random() - 0.5) * 0.06))
-      placed++
+      trees.setMatrixAt(placed[species], dummy.matrix)
+      // A small tint per tree, multiplied into the species' own colours.
+      const v = 0.88 + random() * 0.24
+      trees.setColorAt(placed[species], shade.setRGB(v, v, v))
+      placed[species]++
+      total++
     }
-    trees.count = placed
-    trees.instanceMatrix.needsUpdate = true
-    if (trees.instanceColor) trees.instanceColor.needsUpdate = true
+    for (const sp of SPECIES) {
+      const trees = meshes.current[sp]
+      if (!trees) continue
+      trees.count = placed[sp]
+      trees.instanceMatrix.needsUpdate = true
+      if (trees.instanceColor) trees.instanceColor.needsUpdate = true
+    }
   }, [from, to, count, seed, band, minOffset, maxOffset])
 
   return (
-    <instancedMesh ref={mesh} args={[cone, undefined, count]}>
-      <meshStandardMaterial flatShading />
-    </instancedMesh>
+    <>
+      {SPECIES.map((sp) => (
+        <instancedMesh
+          key={sp}
+          ref={(el) => void (meshes.current[sp] = el)}
+          args={[shapes[sp], undefined, count]}
+        >
+          <meshStandardMaterial vertexColors flatShading />
+        </instancedMesh>
+      ))}
+    </>
   )
 }
 

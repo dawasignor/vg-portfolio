@@ -113,7 +113,8 @@ body {
 
 /* Words written in the sky behind a plane, or following the train: soft, cloud-white. */
 .sky-writing {
-  position: absolute;
+  position: fixed;
+  z-index: 1;
   transform: translate(-50%, -50%);
   white-space: nowrap;
   font-family: Georgia, 'Noto Serif', serif;

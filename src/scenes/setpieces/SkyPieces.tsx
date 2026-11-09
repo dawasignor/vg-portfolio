@@ -14,7 +14,8 @@ const BALL = '#c8642c' // default
 
 // Words over the scene are plain page elements, created and removed with the set
 // piece, and moved every frame to where their 3D anchor appears on screen. They use
-// the page's own fonts, so nothing is fetched from elsewhere.
+// the page's own fonts, so nothing is fetched from elsewhere. They live on <body>,
+// outside React's #root: React must be the only one adding or removing children there.
 const projected = new Vector3()
 const trainTail = new Vector3()
 
@@ -25,7 +26,7 @@ function useOverlayWords(text: string, className: string) {
     div.className = className
     div.textContent = text
     div.style.opacity = '0'
-    document.getElementById('root')?.appendChild(div)
+    document.body.appendChild(div)
     element.current = div
     return () => {
       div.remove()
