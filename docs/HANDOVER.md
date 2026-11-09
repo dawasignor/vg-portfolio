@@ -85,6 +85,22 @@ The page opens on one screen with the title and a scroll hint, in large type ove
 (`ui/Landing.tsx`, `ui/landingFade.ts`, `JourneyScroll introScreens={1}`). It fades over the
 first 60% of a screen of scroll. The stop card and sound toggle stay hidden until it has gone.
 
+### Loading screen and progress bar (2026-11-11)
+
+- **Loading screen:** static HTML and CSS in `index.html` (`#loading`, a drifting wave and
+  "Loading the journey…"), so it shows before any script runs. `ReadySignal` in `App.tsx`
+  calls `ui/loading.ts finishLoading()` on the first frame the 3D world draws, which fades it
+  out and removes it.
+- **Progress bar** (design doc §12 Q12): `ui/ProgressBar.tsx`, a river line down the right
+  edge. One dot per stop (scenery is left out), filled once passed; an amber marker shows
+  where the reader is; hovering a dot shows its title; clicking it smooth-scrolls to that
+  stop's pause. It stays hidden until the landing screen has faded.
+- To map scroll ↔ progress outside the canvas, `JourneyScroll` publishes its geometry
+  (`setScrollGeometry`), read by `progressAtPageScroll(y)` and `scrollForStop(t)` in
+  `engine/journeyProgress.ts`.
+- Known: the 14 semester-1 stops sit in the first quarter, so on short windows their dots
+  nearly touch. Hover still works; spacing them by index instead of `t` is the fix if it bothers.
+
 ### Waiting on the owner
 
 - `[CONFIRM]` the start year: they wrote July 2026; the CV says July 2024 (July 2024 is used).
