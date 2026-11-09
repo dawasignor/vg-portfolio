@@ -63,6 +63,12 @@ Measured on an Intel UHD at 1920×1080: 8–13 ms median per frame, 24 ms worst.
   forbids adding or restoring faces, and outputs stay `"reviewed": false` until checked. The
   local-model provider is stubbed for v2.
 
+### Landing screen (2026-11-09)
+
+The page opens on one screen showing only **"Coming soon"**, in large type over the valley
+(`ui/ComingSoon.tsx`, `ui/landing.ts`, `JourneyScroll introScreens={1}`). It fades over the
+first 60% of a screen of scroll. The stop card and sound toggle stay hidden until it has gone.
+
 ### Waiting on the owner
 
 - `[CONFIRM]` the start year: they wrote July 2026; the CV says July 2024 (July 2024 is used).
