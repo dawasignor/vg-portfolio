@@ -63,10 +63,26 @@ Measured on an Intel UHD at 1920×1080: 8–13 ms median per frame, 24 ms worst.
   forbids adding or restoring faces, and outputs stay `"reviewed": false` until checked. The
   local-model provider is stubbed for v2.
 
-### Landing screen (2026-11-09)
+### Public-release pass (2026-11-10)
 
-The page opens on one screen showing only **"Coming soon"**, in large type over the valley
-(`ui/ComingSoon.tsx`, `ui/landing.ts`, `JourneyScroll introScreens={1}`). It fades over the
+- **Content:** `masters.json` now holds the owner's 28 items in their order: 24 stops plus four
+  `"kind": "scenery"` nodes (basketball easter egg; sky-writing flights Chennai→Dresden and
+  Aachen→Bangkok; the train-bridge "Movement to Aachen"). The text is the owner's, pruned. **No
+  third-party names:** professors' names were removed per the GDPR rule. Six items (RWTH and UNU
+  courses 22–26, the thesis body) await descriptions, so they show a title only.
+- **Scenery nodes** never pause the scroll and never show a card. Set pieces take parameters from
+  the journey file (`{ "name": "sky-writing", "text": …, "direction": … }`).
+- **Words over the scene** are plain page elements, projected from 3D each frame
+  (`useOverlayWords` in `SkyPieces.tsx`). drei's `Html` lost one of its roots under React's
+  development double-mount, so don't use it here.
+- **Privacy audit of `dist/`:** no dev paths, no secrets, no third-party names, zero external
+  requests at runtime. The unused cleared photo now lives in gitignored `media-work/`; it is
+  still in git history (commit dabdee7), which only matters if the repo itself is published.
+
+### Landing screen (2026-11-09, text updated 2026-11-10)
+
+The page opens on one screen with the title and a scroll hint, in large type over the valley
+(`ui/Landing.tsx`, `ui/landingFade.ts`, `JourneyScroll introScreens={1}`). It fades over the
 first 60% of a screen of scroll. The stop card and sound toggle stay hidden until it has gone.
 
 ### Waiting on the owner
