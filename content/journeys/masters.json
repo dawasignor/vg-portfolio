@@ -1,7 +1,10 @@
 {
   "id": "masters",
   "title": "Master's journey",
-  "period": { "start": "2024-07", "end": "2026-10" },
+  "period": {
+    "start": "2024-07",
+    "end": "2026-12"
+  },
   "stylePreset": "painterly-anime",
   "nodes": [
     {
@@ -13,7 +16,9 @@
       "magnitude": 2,
       "sceneType": "foothills",
       "visibility": "public",
-      "setPieces": ["trail-junction"],
+      "setPieces": [
+        "trail-junction"
+      ],
       "sound": "audio/base-camp.mp3"
     },
     {
@@ -25,8 +30,13 @@
       "magnitude": 2,
       "sceneType": "foothills",
       "visibility": "public",
-      "setPieces": ["sediment-flow"],
-      "gaze": { "preset": "look-aside", "side": "left" },
+      "setPieces": [
+        "sediment-flow"
+      ],
+      "gaze": {
+        "preset": "look-aside",
+        "side": "left"
+      },
       "sound": "audio/river.mp3"
     },
     {
@@ -38,8 +48,14 @@
       "magnitude": 2,
       "sceneType": "foothills",
       "visibility": "public",
-      "setPieces": ["windmill"],
-      "gaze": { "preset": "look-aside", "side": "right", "strength": 0.8 },
+      "setPieces": [
+        "windmill"
+      ],
+      "gaze": {
+        "preset": "look-aside",
+        "side": "right",
+        "strength": 0.8
+      },
       "sound": "audio/windmill-wind.mp3"
     },
     {
@@ -51,8 +67,13 @@
       "magnitude": 3,
       "sceneType": "foothills",
       "visibility": "public",
-      "setPieces": ["river-village"],
-      "gaze": { "preset": "look-aside", "side": "left" },
+      "setPieces": [
+        "river-village"
+      ],
+      "gaze": {
+        "preset": "look-aside",
+        "side": "left"
+      },
       "sound": "audio/village-mill.mp3"
     },
     {
@@ -64,8 +85,14 @@
       "magnitude": 2,
       "sceneType": "foothills",
       "visibility": "public",
-      "setPieces": ["well"],
-      "gaze": { "preset": "look-aside", "side": "left", "strength": 0.7 },
+      "setPieces": [
+        "well"
+      ],
+      "gaze": {
+        "preset": "look-aside",
+        "side": "left",
+        "strength": 0.7
+      },
       "sound": "audio/well.mp3"
     },
     {
@@ -77,8 +104,14 @@
       "magnitude": 2,
       "sceneType": "foothills",
       "visibility": "public",
-      "setPieces": ["seagulls"],
-      "gaze": { "preset": "look-aside", "side": "right", "strength": 1.8 },
+      "setPieces": [
+        "seagulls"
+      ],
+      "gaze": {
+        "preset": "look-aside",
+        "side": "right",
+        "strength": 1.8
+      },
       "sound": "audio/gulls-and-sea.mp3"
     },
     {
@@ -108,7 +141,9 @@
       "magnitude": 1,
       "sceneType": "foothills",
       "visibility": "public",
-      "setPieces": ["basketball"]
+      "setPieces": [
+        "basketball"
+      ]
     },
     {
       "id": "09-water-resources-planning",
@@ -147,7 +182,13 @@
       "magnitude": 3,
       "sceneType": "mountain-base",
       "visibility": "public",
-      "setPieces": [{ "name": "sky-writing", "text": "Movement from Chennai to Dresden", "direction": "right-to-left" }]
+      "setPieces": [
+        {
+          "name": "sky-writing",
+          "text": "Movement from Chennai to Dresden",
+          "direction": "right-to-left"
+        }
+      ]
     },
     {
       "id": "13-urban-water",
@@ -236,7 +277,13 @@
       "magnitude": 3,
       "sceneType": "village",
       "visibility": "public",
-      "setPieces": [{ "name": "train-bridge", "text": "Movement to Aachen", "direction": "left-to-right" }]
+      "setPieces": [
+        {
+          "name": "train-bridge",
+          "text": "Movement from Dresden to Aachen",
+          "direction": "left-to-right"
+        }
+      ]
     },
     {
       "id": "22-global-changes",
@@ -290,7 +337,13 @@
       "magnitude": 3,
       "sceneType": "river-valley",
       "visibility": "public",
-      "setPieces": [{ "name": "sky-writing", "text": "Movement from Aachen to Bangkok", "direction": "left-to-right" }]
+      "setPieces": [
+        {
+          "name": "sky-writing",
+          "text": "Movement from Aachen to Bangkok",
+          "direction": "left-to-right"
+        }
+      ]
     },
     {
       "id": "28-thesis",
@@ -301,6 +354,20 @@
       "magnitude": 5,
       "sceneType": "delta",
       "visibility": "public"
+    },
+    {
+      "id": "29-graduation",
+      "kind": "scenery",
+      "t": 0.97,
+      "magnitude": 5,
+      "sceneType": "beach",
+      "visibility": "public",
+      "setPieces": [
+        {
+          "name": "horizon-words",
+          "text": "Graduation (December 2026)"
+        }
+      ]
     }
   ]
 }

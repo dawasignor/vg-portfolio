@@ -12,6 +12,7 @@ export function Landing() {
           A glimpse into Vigneshvar's Master's journey in Water Security and Global Change
         </h1>
         <p className="coming-soon__hint">Scroll down to navigate :)</p>
+        <p className="coming-soon__note">This site is still being fine-tuned.</p>
       </div>
     </div>
   )

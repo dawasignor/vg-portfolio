@@ -197,6 +197,28 @@ export function TrainBridge({ s, t, params }: SetPieceProps) {
   )
 }
 
+// Words that appear over the horizon as the reader arrives, e.g. at the shore.
+export function HorizonWords({ s, t, params }: SetPieceProps) {
+  const text = String(params.text ?? '')
+  const progress = useJourneyProgress()
+  const wordsRef = useOverlayWords(text, 'sky-writing sky-writing--horizon')
+  // Straight ahead along the direction of travel at the stop, so the words sit centred.
+  const anchor = useMemo(() => {
+    const here = groundPoint(s, 0)
+    const next = groundPoint(ahead(s, 5), 0)
+    const forward = new Vector3(next.x - here.x, 0, next.z - here.z).normalize()
+    return here.addScaledVector(forward, 600).setY(trailElevation(s) + 45)
+  }, [s])
+
+  useFrame(({ camera, size }) => {
+    if (!wordsRef.current) return
+    placeOver(wordsRef.current, anchor, camera, size.width, size.height)
+    // Fades in over the last stretch before the stop, and stays.
+    wordsRef.current.style.opacity = String(smoothstep(t - 0.03, t, progress.current.offset))
+  })
+  return null
+}
+
 const RIM = 3.05
 const DROP_FROM = 4.6
 const CYCLE = 2.6 // seconds per drop

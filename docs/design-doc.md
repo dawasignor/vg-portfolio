@@ -159,8 +159,7 @@ Field notes:
 *Rewritten 2026-09-26 from vg's plan. The journey is built one semester at a time; each
 semester gets its share of the scroll. Semester 1 is the first quarter.*
 
-**Span:** July 2024 → **October 2026** (§12 Q1). `[CONFIRM]` start year: vg wrote "July 2026";
-the CV says the joint M.Sc. began July 2024.
+**Span:** July 2024 → **December 2026** (§12 Q1; start confirmed 2026-11-10, graduation date updated 2026-11-11).
 
 ### Before the journey: base camp (t ≈ 0.02)
 
@@ -347,7 +346,7 @@ Tentative; versions will be refined and sub-versioned as they approach.
 ## 12. Open questions (settle inline)
 
 1. **CV:** It wasn't attached to this draft. Upload it and §6 gets filled. Also confirm the graduation date / journey end.
-   → **Settled 2026-09-26: the journey ends in October 2026.**
+   → **Settled 2026-09-26: the journey ends in October 2026.** Updated 2026-11-11: **graduation, December 2026**, shown in words over the sea at the finale.
 2. **Stub tabs:** Should Bachelor's and Travels be visible but disabled ("coming soon") in v1, or hidden until they have content?
    → **Settled 2026-09-25: visible, with a "coming soon" placeholder; the button is not clickable.**
 3. **Stylization route:** Go with A + C for v1 (§7.2), or do you want B (local image model) now?

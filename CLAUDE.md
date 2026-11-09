@@ -39,7 +39,7 @@ stands.
 | §12 Q5 Traveller | First-person: the camera is the traveller. Sometimes a first-person video (details: open Q13) | 2026-09-25 |
 | §12 Q2 Stub tabs | Visible, "coming soon" placeholder, not clickable | 2026-09-25 |
 | §12 Q10 Video in cards | Silent loops. Plus a living world of silent loops: flowers and big trees and river waves at v0.6, birds and butterflies at v1.0 (design doc §4.2a). Tree species come from vg's Nevegal list, **awaited: don't invent species** | 2026-09-25 |
-| §12 Q1 Journey end | October 2026 | 2026-09-26 |
+| §12 Q1 Journey end | December 2026 (graduation; was October) | 2026-11-11 |
 | §12 Q3 Stylization | An image model: local eventually; an OpenRouter path for now (key + model are vg's to fill in) | 2026-09-26 |
 | §12 Q6 Voice | A minstrel telling the world about vg; Claude drafts from vg's facts, vg approves | 2026-09-26 |
 | §12 Q7 Sound | vg's own travel recordings; the engine provides slots and placeholders | 2026-09-26 |

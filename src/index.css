@@ -133,3 +133,18 @@ body {
 .sky-writing--small {
   font-size: clamp(16px, 1.8vw, 26px);
 }
+
+.coming-soon__note {
+  margin: 0.6em 0 0;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  font-style: italic;
+  font-size: clamp(13px, 1.2vw, 17px);
+  color: rgba(246, 239, 224, 0.85);
+  text-shadow: 0 2px 12px rgba(20, 16, 10, 0.6);
+}
+
+.sky-writing--horizon {
+  font-style: normal;
+  font-size: clamp(30px, 4.4vw, 64px);
+}

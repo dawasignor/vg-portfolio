@@ -8,12 +8,14 @@ import type { Look } from '../../engine/look'
 // Sun azimuth: 0 = ahead along the journey, +90 = right, 180 = behind.
 
 export const LOOKS = {
-  // ref GOPR2958–2960, 06:06: cold blue-grey sky, towers black against it.
+  // ref GOPR2958–2960, 06:06: cold blue-grey sky, towers against it. Brightened
+  // 2026-11-11 at the owner's request (the opening read as gloomy): lighter sky,
+  // more ambient light, a little early sun.
   'pre-dawn': {
-    zenith: '#55677a', horizon: '#9aa4ab',
-    sun: '#b0b7b9', sunIntensity: 0.5, sunElevation: 3, sunAzimuth: 15,
-    skyLight: '#7c8b98', groundLight: '#1d2021', ambientIntensity: 1.0,
-    fogFar: 1400, stars: 0.12,
+    zenith: '#6a7f99', horizon: '#bcc5cc',
+    sun: '#e6d6c0', sunIntensity: 1.3, sunElevation: 10, sunAzimuth: 15,
+    skyLight: '#a9b9ca', groundLight: '#4a4b46', ambientIntensity: 2.0,
+    fogFar: 1900, stars: 0.05,
   },
   // ref GOPR2989–2990, 08:46: the hut's bowl, sun over the rim, bright cloud.
   morning: {
@@ -74,8 +76,8 @@ export const LOOKS = {
   // default
   dawn: {
     zenith: '#2f4270', horizon: '#e3a57e',
-    sun: '#ffc49a', sunIntensity: 1.2, sunElevation: 4, sunAzimuth: -10,
-    skyLight: '#8a8ba8', groundLight: '#2a2530', ambientIntensity: 1.0,
+    sun: '#ffc49a', sunIntensity: 1.7, sunElevation: 4, sunAzimuth: -10,
+    skyLight: '#a3a5bf', groundLight: '#3d3640', ambientIntensity: 1.4,
     fogFar: 1600, stars: 0.15,
   },
   // default. Low warm sun straight ahead over the sea, which reads as either
